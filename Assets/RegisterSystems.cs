@@ -8,7 +8,7 @@ public class RegisterSystems
         var toRegister = new List<ISystem>();
         
         // Add your systems here
-
+       toRegister.Add(new InitSys());
         return toRegister;
     }
 }
