@@ -12,7 +12,7 @@ public class ECSManager : MonoBehaviour
     private const float MinInstantColorUpdate = 0.25f;
     private const float ColorUpdateSpeed = 4f;
     #endregion
-    
+
     #region Private attributes
     [SerializeField]
     private Config config;
@@ -34,7 +34,7 @@ public class ECSManager : MonoBehaviour
         get
         {
             if (_instance) return _instance;
-            
+
             _instance = FindObjectOfType<ECSManager>();
             if (!_instance)
             {
@@ -43,7 +43,7 @@ public class ECSManager : MonoBehaviour
             return _instance;
         }
     }
-    
+
     private ECSManager() { }
     #endregion
 
@@ -52,10 +52,10 @@ public class ECSManager : MonoBehaviour
 
     public List<ISystem> AllSystems => _allSystems;
 
-    public void CreateShape(uint id, Config.ShapeConfig entityConfig)
+    public void CreateShape(uint id, int initialSize)
     {
         var instance = Instantiate(circlePrefab);
-        instance.transform.localScale *= entityConfig.initialSize;
+        instance.transform.localScale *= initialSize;
         _gameObjectsForDisplay[id] = instance;
         _spriteRenderersCache.Add(id, instance.GetComponent<SpriteRenderer>()) ;
         _lastColorUpdate.Add(id, 0);
@@ -83,7 +83,7 @@ public class ECSManager : MonoBehaviour
     {
         if (_nextColorUpdate.ContainsKey(id) && _nextColorUpdate[id] == color)
             return;
-        
+
         if (_spriteRenderersCache[id].color == color)
             return;
 
@@ -93,7 +93,7 @@ public class ECSManager : MonoBehaviour
             _lastColorUpdate[id] = time;
             if (_nextColorUpdate.ContainsKey(id))
                 _nextColorUpdate.Remove(id);
-            
+
             _spriteRenderersCache[id].color = color;
             return;
         }
@@ -118,7 +118,7 @@ public class ECSManager : MonoBehaviour
             Config.SystemsEnabled[system.Name] = true;
         }
     }
-    
+
     // Update is called once per frame
     private void FixedUpdate()
     {
@@ -144,7 +144,7 @@ public class ECSManager : MonoBehaviour
             _nextColorUpdate.Remove(_nextColorToDelete.Pop());
     }
     #endregion
-    
+
 }
 
 public interface ISystem
@@ -157,9 +157,4 @@ public interface IComponent
 {
     // vide
     // utile pour la correction
-}
-
-public struct EntityComponent : IComponent
-{
-    public uint id;
 }
