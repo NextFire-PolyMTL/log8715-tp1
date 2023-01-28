@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct collidingWith : IComponent
+public struct CollidingWith : IComponent
 {
     int[] collidedShapes;
 }
