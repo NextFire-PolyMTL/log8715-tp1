@@ -9,6 +9,11 @@ public readonly struct Entity
     }
 
     public readonly uint Id;
+
+    public override string ToString()
+    {
+        return $"<Entity Id={Id}>";
+    }
 }
 
 public class ComponentManager
@@ -81,5 +86,16 @@ public class ComponentManager
     {
         components.Remove(entity.Id);
         componentTypes[typeof(T)].Remove(entity);
+    }
+
+    public string DebugStr()
+    {
+        var str = "<color=green>ComponentManager</color>\n";
+        str += $"Count={components.Count}\n";
+        foreach (var components in componentTypes)
+        {
+            str += $"{components.Key}: {string.Join(", ", components.Value)}\n";
+        }
+        return str;
     }
 }

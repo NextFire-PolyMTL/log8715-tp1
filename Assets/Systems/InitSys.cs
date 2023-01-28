@@ -1,21 +1,33 @@
+using UnityEngine;
+
 public class InitSys : ISystem
 {
     public string Name => "InitSys";
 
-    private uint max_id = 0;
+    private uint currentId = 0;
     private bool initializing = true;
 
     public void UpdateSystem()
     {
-
         if (initializing)
         {
+            initializing = false;
+
             foreach (var shape in ECSManager.Instance.Config.circleInstancesToSpawn)
             {
-                ECSManager.Instance.CreateShape(max_id, shape.initialSize);
-                max_id += 1;
+                var size = new Size(shape.initialSize);
+                var position = new Position(shape.initialPosition.x, shape.initialPosition.y);
+                var velocity = new Velocity(shape.initialVelocity.x, shape.initialVelocity.y);
+
+                ComponentManager.Instance.AddComponent<Size>(size);
+                ComponentManager.Instance.AddComponent<Position>(position);
+                ComponentManager.Instance.AddComponent<Velocity>(velocity);
+
+                // TODO: archetype?
+                ECSManager.Instance.CreateShape(currentId++, shape.initialSize);
             }
-            initializing = false;
         }
+
+        Debug.Log(ComponentManager.Instance.DebugStr());
     }
 }

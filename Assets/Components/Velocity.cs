@@ -1,6 +1,6 @@
-public readonly struct Speed : IComponent
+public readonly struct Velocity : IComponent
 {
-    public Speed(float vx, float vy)
+    public Velocity(float vx, float vy)
     {
         Vx = vx;
         Vy = vy;
