@@ -1,4 +1,9 @@
-public struct CollidingWith : IComponent
+public readonly struct CollidingWith : IComponent
 {
-    int[] collidedShapes;
+    public CollidingWith(int[] collidedShapes)
+    {
+        CollidedShapes = collidedShapes;
+    }
+
+    public readonly int[] CollidedShapes;
 }

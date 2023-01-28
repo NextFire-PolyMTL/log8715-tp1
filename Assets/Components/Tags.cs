@@ -1,7 +1,7 @@
-public struct isStatic : IComponent { }
+public readonly struct IsStatic : IComponent { }
 
-public struct isProtected : IComponent { }
+public readonly struct IsProtected : IComponent { }
 
-public struct isColliding : IComponent { }
+public readonly struct IsColliding : IComponent { }
 
-public struct isClicked : IComponent { }
+public readonly struct IsClicked : IComponent { }

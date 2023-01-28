@@ -1,5 +1,11 @@
-public struct Position : IComponent
+public readonly struct Position : IComponent
 {
-    float x;
-    float y;
+    public Position(float x, float y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    public readonly float X;
+    public readonly float Y;
 }
