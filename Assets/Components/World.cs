@@ -32,7 +32,6 @@ public class World
 
     private Dictionary<Type, IComponent[]> components = new Dictionary<Type, IComponent[]>();
     private bool[] isEntityActive = new bool[MAX_ENTITIES];
-    private int maxActive = 0;
 
     private World() { }
 
@@ -43,20 +42,39 @@ public class World
             if (!isEntityActive[i])
             {
                 isEntityActive[i] = true;
-                maxActive = Math.Max(maxActive, i);
                 return new Entity(i);
             }
         }
         throw new Exception("Max entities reached");
     }
 
-    public void AddComponent<T>(Entity entity, T component) where T : IComponent
+    public void DeleteEntity(Entity entity)
+    {
+        isEntityActive[entity.Id] = false;
+    }
+
+    public void SetComponent<T>(Entity entity, T component) where T : IComponent
     {
         if (!isEntityActive[entity.Id])
         {
             throw new Exception("Entity is not active");
         }
-        components.TryAdd(typeof(T), new IComponent[MAX_ENTITIES]);
+        if (!components.ContainsKey(typeof(T)))
+        {
+            components[typeof(T)] = new IComponent[MAX_ENTITIES];
+        }
         components[typeof(T)][entity.Id] = component;
+    }
+
+    public void RemoveComponent<T>(Entity entity) where T : IComponent
+    {
+        if (!isEntityActive[entity.Id])
+        {
+            throw new Exception("Entity is not active");
+        }
+        if (components.ContainsKey(typeof(T)))
+        {
+            components[typeof(T)][entity.Id] = null;
+        }
     }
 }
