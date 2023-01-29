@@ -31,7 +31,7 @@ public class World
     #endregion
 
     private Dictionary<Type, IComponent[]> components = new Dictionary<Type, IComponent[]>();
-    private bool[] isEntityActive = new bool[MAX_ENTITIES];
+    private Entity?[] entities = new Entity?[MAX_ENTITIES];
 
     private World() { }
 
@@ -39,10 +39,11 @@ public class World
     {
         for (var i = 0; i < MAX_ENTITIES; i++)
         {
-            if (!isEntityActive[i])
+            if (entities[i] is null)
             {
-                isEntityActive[i] = true;
-                return new Entity(i);
+                var entity = new Entity(i);
+                entities[i] = entity;
+                return entity;
             }
         }
         throw new Exception("Max entities reached");
@@ -50,14 +51,14 @@ public class World
 
     public void DeleteEntity(Entity entity)
     {
-        isEntityActive[entity.Id] = false;
+        entities[entity.Id] = null;
     }
 
     public void SetComponent<T>(Entity entity, T component) where T : IComponent
     {
-        if (!isEntityActive[entity.Id])
+        if (entities[entity.Id] is null)
         {
-            throw new Exception("Entity is not active");
+            throw new Exception("Unknown entity");
         }
         if (!components.ContainsKey(typeof(T)))
         {
@@ -68,9 +69,9 @@ public class World
 
     public void RemoveComponent<T>(Entity entity) where T : IComponent
     {
-        if (!isEntityActive[entity.Id])
+        if (entities[entity.Id] is null)
         {
-            throw new Exception("Entity is not active");
+            throw new Exception("Unknown entity");
         }
         if (components.ContainsKey(typeof(T)))
         {
