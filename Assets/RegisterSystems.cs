@@ -9,6 +9,9 @@ public class RegisterSystems
 
         // Add your systems here
         toRegister.Add(new InitSys());
+        toRegister.Add(new PositionSys());
+        toRegister.Add(new RenderSys());
+
         return toRegister;
     }
 }

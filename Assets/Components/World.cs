@@ -54,6 +54,19 @@ public class World
         entities[entity.Id] = null;
     }
 
+    public T GetComponent<T>(Entity entity) where T : IComponent
+    {
+        if (entities[entity.Id] is null)
+        {
+            throw new Exception("Unknown entity");
+        }
+        if (components.ContainsKey(typeof(T)))
+        {
+            return (T)components[typeof(T)][entity.Id];
+        }
+        return default;
+    }
+
     public void SetComponent<T>(Entity entity, T component) where T : IComponent
     {
         if (entities[entity.Id] is null)
@@ -76,6 +89,21 @@ public class World
         if (components.ContainsKey(typeof(T)))
         {
             components[typeof(T)][entity.Id] = null;
+        }
+    }
+
+    public void ForEach<T>(Action<Entity, T> action) where T : IComponent
+    {
+        if (components.ContainsKey(typeof(T)))
+        {
+            var componentArray = components[typeof(T)];
+            for (var i = 0; i < MAX_ENTITIES; i++)
+            {
+                if (entities[i] is Entity entity)
+                {
+                    action(entity, (T)componentArray[i]);
+                }
+            }
         }
     }
 }
