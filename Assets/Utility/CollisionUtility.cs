@@ -31,6 +31,7 @@ public static class CollisionUtility
         // Get Magnitudes of initial velocities
         var magnitude1 = velocity1.magnitude;
         var magnitude2 = velocity2.magnitude;
+        var oneIsStatic = magnitude1 == 0 || magnitude2 == 0;
 
         // Get distances between the balls components
         var distanceVector = position2 - position1;
@@ -44,69 +45,79 @@ public static class CollisionUtility
         if (distanceMagnitude > minDistance)
             return null;
 
-        var distanceCorrection = (minDistance - distanceMagnitude) / 2;
+        var distanceCorrection = (minDistance - distanceMagnitude);
+        
+        if(!oneIsStatic)
+        {
+            distanceCorrection /= 2;
+        }
+            
         var correctionVector = distanceVector.normalized * distanceCorrection;
         position2 += correctionVector;
         position1 -= correctionVector;
-
-        // get angle of distanceVect
-        var theta = Mathf.Atan2(distanceVector.y, distanceVector.x);
         
-        // precalculate trig values
-        var sine = Mathf.Sin(theta);
-        var cosine = Mathf.Cos(theta);
-        
-        Vector2[] bTemp = { new(), new() };
-        
-        bTemp[1].x = cosine * distanceVector.x + sine * distanceVector.y;
-        bTemp[1].y = cosine * distanceVector.y - sine * distanceVector.x;
-
-        // rotate Temporary velocities
-        Vector2[] vTemp = { new(), new() };
-
-        vTemp[0].x = cosine * velocity1.x + sine * velocity1.y;
-        vTemp[0].y = cosine * velocity1.y - sine * velocity1.x;
-        vTemp[1].x = cosine * velocity2.x + sine * velocity2.y;
-        vTemp[1].y = cosine * velocity2.y - sine * velocity2.x;
-        
-        Vector2[] vFinal = { new(), new() };
-
-        // final rotated velocity for b[0]
-        vFinal[0].x = ((mass1 - mass2) * vTemp[0].x + 2 * mass2 * vTemp[1].x) / (mass1 + mass2);
-        vFinal[0].y = vTemp[0].y;
-
-        // final rotated velocity for b[0]
-        vFinal[1].x = ((mass2 - mass1) * vTemp[1].x + 2 * mass1 * vTemp[0].x) / (mass1 + mass2);
-        vFinal[1].y = vTemp[1].y;
-
-        // hack to avoid clumping
-        bTemp[0].x += vFinal[0].x;
-        bTemp[1].x += vFinal[1].x;
-        
-        // rotate balls
-        Vector2[] bFinal = { new(), new() };
-
-        bFinal[0].x = cosine * bTemp[0].x - sine * bTemp[0].y;
-        bFinal[0].y = cosine * bTemp[0].y + sine * bTemp[0].x;
-        bFinal[1].x = cosine * bTemp[1].x - sine * bTemp[1].y;
-        bFinal[1].y = cosine * bTemp[1].y + sine * bTemp[1].x;
-
-        // update velocities
-        velocity1.x = cosine * vFinal[0].x - sine * vFinal[0].y;
-        velocity1.y = cosine * vFinal[0].y + sine * vFinal[0].x;
-        velocity2.x = cosine * vFinal[1].x - sine * vFinal[1].y;
-        velocity2.y = cosine * vFinal[1].y + sine * vFinal[1].x;
-
+		// Handling for one static circle
         if (magnitude1 == 0) {
-            velocity1 = Vector2.zero;
             position1 = initialPosition1;
-            velocity2 = velocity2.normalized * magnitude2;
+            distanceVector.Normalize();
+            velocity2 -= (2 * Vector2.Dot(distanceVector, velocity2)) * distanceVector;
         }
         else if (magnitude2 == 0)
         {
-            velocity2 = Vector2.zero;
             position2 = initialPosition2;
-            velocity1 = velocity1.normalized * magnitude1;
+            distanceVector = -distanceVector;
+            distanceVector.Normalize();
+            velocity1 -= (2 * Vector2.Dot(distanceVector, velocity1)) * distanceVector;
+        }
+        else
+        {
+            // get angle of distanceVect
+            var theta = Mathf.Atan2(distanceVector.y, distanceVector.x);
+        
+            // precalculate trig values
+            var sine = Mathf.Sin(theta);
+            var cosine = Mathf.Cos(theta);
+        
+            Vector2[] bTemp = { new(), new() };
+        
+            bTemp[1].x = cosine * distanceVector.x + sine * distanceVector.y;
+            bTemp[1].y = cosine * distanceVector.y - sine * distanceVector.x;
+
+            // rotate Temporary velocities
+            Vector2[] vTemp = { new(), new() };
+
+            vTemp[0].x = cosine * velocity1.x + sine * velocity1.y;
+            vTemp[0].y = cosine * velocity1.y - sine * velocity1.x;
+            vTemp[1].x = cosine * velocity2.x + sine * velocity2.y;
+            vTemp[1].y = cosine * velocity2.y - sine * velocity2.x;
+        
+            Vector2[] vFinal = { new(), new() };
+
+            // final rotated velocity for b[0]
+            vFinal[0].x = ((mass1 - mass2) * vTemp[0].x + 2 * mass2 * vTemp[1].x) / (mass1 + mass2);
+            vFinal[0].y = vTemp[0].y;
+
+            // final rotated velocity for b[0]
+            vFinal[1].x = ((mass2 - mass1) * vTemp[1].x + 2 * mass1 * vTemp[0].x) / (mass1 + mass2);
+            vFinal[1].y = vTemp[1].y;
+
+            // hack to avoid clumping
+            bTemp[0].x += vFinal[0].x;
+            bTemp[1].x += vFinal[1].x;
+        
+            // rotate balls
+            Vector2[] bFinal = { new(), new() };
+
+            bFinal[0].x = cosine * bTemp[0].x - sine * bTemp[0].y;
+            bFinal[0].y = cosine * bTemp[0].y + sine * bTemp[0].x;
+            bFinal[1].x = cosine * bTemp[1].x - sine * bTemp[1].y;
+            bFinal[1].y = cosine * bTemp[1].y + sine * bTemp[1].x;
+
+            // update velocities
+            velocity1.x = cosine * vFinal[0].x - sine * vFinal[0].y;
+            velocity1.y = cosine * vFinal[0].y + sine * vFinal[0].x;
+            velocity2.x = cosine * vFinal[1].x - sine * vFinal[1].y;
+            velocity2.y = cosine * vFinal[1].y + sine * vFinal[1].x;
         }
 
         return new CollisionResult(position1, velocity1, position2, velocity2);

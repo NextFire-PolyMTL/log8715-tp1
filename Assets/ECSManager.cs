@@ -12,7 +12,7 @@ public class ECSManager : MonoBehaviour
     private const float MinInstantColorUpdate = 0.25f;
     private const float ColorUpdateSpeed = 4f;
     #endregion
-
+    
     #region Private attributes
     [SerializeField]
     private Config config;
@@ -34,7 +34,7 @@ public class ECSManager : MonoBehaviour
         get
         {
             if (_instance) return _instance;
-
+            
             _instance = FindObjectOfType<ECSManager>();
             if (!_instance)
             {
@@ -43,7 +43,7 @@ public class ECSManager : MonoBehaviour
             return _instance;
         }
     }
-
+    
     private ECSManager() { }
     #endregion
 
@@ -51,7 +51,7 @@ public class ECSManager : MonoBehaviour
     public Config Config => config;
 
     public List<ISystem> AllSystems => _allSystems;
-
+    
     public void CreateShape(uint id, int initialSize)
     {
         var instance = Instantiate(circlePrefab);
@@ -83,7 +83,7 @@ public class ECSManager : MonoBehaviour
     {
         if (_nextColorUpdate.ContainsKey(id) && _nextColorUpdate[id] == color)
             return;
-
+        
         if (_spriteRenderersCache[id].color == color)
             return;
 
@@ -93,7 +93,7 @@ public class ECSManager : MonoBehaviour
             _lastColorUpdate[id] = time;
             if (_nextColorUpdate.ContainsKey(id))
                 _nextColorUpdate.Remove(id);
-
+            
             _spriteRenderersCache[id].color = color;
             return;
         }
@@ -118,7 +118,7 @@ public class ECSManager : MonoBehaviour
             Config.SystemsEnabled[system.Name] = true;
         }
     }
-
+    
     // Update is called once per frame
     private void FixedUpdate()
     {
@@ -133,6 +133,12 @@ public class ECSManager : MonoBehaviour
     {
         foreach (var id in _nextColorUpdate.Keys)
         {
+            if (!_spriteRenderersCache.ContainsKey(id))
+            {
+                _nextColorToDelete.Push(id);
+                continue;
+            }
+            
             var currentColor = _spriteRenderersCache[id].color;
             _spriteRenderersCache[id].color = Color.Lerp(currentColor, _nextColorUpdate[id], Time.deltaTime * ColorUpdateSpeed);
 
@@ -144,7 +150,7 @@ public class ECSManager : MonoBehaviour
             _nextColorUpdate.Remove(_nextColorToDelete.Pop());
     }
     #endregion
-
+    
 }
 
 public interface ISystem
