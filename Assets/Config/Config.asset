@@ -21,14 +21,18 @@ MonoBehaviour:
   circleInstancesToSpawn:
   - initialSize: 4
     initialPosition: {x: 0, y: 0}
-    initialVelocity: {x: 1, y: 0}
+    initialVelocity: {x: -1, y: 0}
   - initialSize: 11
     initialPosition: {x: 0, y: 0}
     initialVelocity: {x: 0, y: 0.5}
+  - initialSize: 2
+    initialPosition: {x: -5, y: -10}
+    initialVelocity: {x: -0.5, y: 0.5}
   systemsEnabled:
     keys:
     - InitSys
     - PositionSys
     - RenderSys
     - ExplosionSys
-    values: 01010101
+    - CollisionSys
+    values: 0101010101

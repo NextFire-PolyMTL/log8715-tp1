@@ -13,9 +13,8 @@ public class PositionSys : ISystem
             World.Instance.SetComponent<Position>(entity, new Position(position.X + velocity.Vx, position.Y + velocity.Vy));
         });
 
-        World.Instance.ForEach<IsColliding>((entity,IsColliding) =>
+        World.Instance.ForEach<IsColliding>((entity,isColliding) =>
         {
-
             var position = World.Instance.GetComponent<Position>(entity);
             var velocity = World.Instance.GetComponent<Velocity>(entity);
             var radius = World.Instance.GetComponent<Size>(entity).Radius;
