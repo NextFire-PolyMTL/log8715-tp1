@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+// using UnityEngine;
 
 public readonly struct Entity
 {
@@ -54,6 +54,7 @@ public class World
         {
             component[index] = null;
         }
+        // Debug.Log($"[CreateEntity] id={id} index={index}");
         return entity;
     }
 
@@ -63,12 +64,16 @@ public class World
         var lastIndex = --nextIndex;
         if (lastIndex != index)
         {
-            indexToEntity[index] = indexToEntity[lastIndex];
+            var lastEntity = indexToEntity[lastIndex];
+            idToIndex[lastEntity.Id] = index;
+            indexToEntity[index] = lastEntity;
             foreach (var component in components.Values)
             {
                 component[index] = component[lastIndex];
             }
+            // Debug.Log($"[DeleteEntity] swap: id={lastEntity.Id} prevIndex={lastIndex} newIndex={index}");
         }
+        // Debug.Log($"[DeleteEntity] deleted: id={entity.Id} index={index}");
     }
 
     public T? GetComponent<T>(Entity entity) where T : struct, IComponent
@@ -78,7 +83,7 @@ public class World
             var index = idToIndex[entity.Id];
             return (T?)components[typeof(T)][index];
         }
-        return default;
+        return null;
     }
 
     public void SetComponent<T>(Entity entity, T component) where T : struct, IComponent

@@ -22,11 +22,11 @@ public class PositionSys : ISystem
             var position = World.Instance.GetComponent<Position>(entity);
             var velocity = World.Instance.GetComponent<Velocity>(entity);
             var radius = World.Instance.GetComponent<Size>(entity).Value.Radius;
-            var collidedShapes = World.Instance.GetComponent<CollidingWith>(entity).Value.CollidedShapes;
+            var collidedShapes = World.Instance.GetComponent<CollidingWith>(entity);
             //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
             //(et en faire peut-être une cst....)
             var screenBoundary = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-            if (!collidedShapes.Equals(default(CollidingWith)))
+            if (collidedShapes.HasValue)
             {
                 if (Mathf.Abs(position.Value.X) + radius >= screenBoundary.x)
                 {
