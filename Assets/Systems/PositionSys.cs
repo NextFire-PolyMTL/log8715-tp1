@@ -19,17 +19,19 @@ public class PositionSys : ISystem
             {
                 return;
             }
-            
-
             var position = World.Instance.GetComponent<Position>(entity);
             var velocity = World.Instance.GetComponent<Velocity>(entity);
             var radius = World.Instance.GetComponent<Size>(entity).Value.Radius;
             var collidedShapes = World.Instance.GetComponent<CollidingWith>(entity);
+            
+            //Debug.Log((isColliding.HasValue && !collidedShapes.HasValue));
             //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
             //(et en faire peut-être une cst....)
             var screenBoundary = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
             if (isColliding.HasValue && !collidedShapes.HasValue)
             {
+                World.Instance.RemoveComponent<IsColliding>(entity);
+
                 if (Mathf.Abs(position.Value.X) + radius >= screenBoundary.x)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
@@ -59,7 +61,7 @@ public class PositionSys : ISystem
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
                 }
 
-                World.Instance.RemoveComponent<IsColliding>(entity);
+                
             }
         });
     }
