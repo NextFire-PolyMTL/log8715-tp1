@@ -7,11 +7,21 @@ public class CollisionSys : ISystem
 
     public void UpdateSystem()
     {
-        
-        World.Instance.ForEach<IsColliding>((entity, IsColliding) =>
+
+
+        World.Instance.ForEach<Position>((entity, position) =>
         {
-            var collidedShapes=World.Instance.GetComponent<CollidingWith>(entity).CollidedShapes;
+            var radius = World.Instance.GetComponent<Size>(entity).Radius;
+
+            //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
+            //(et en faire peut-être une cst....)
+            var screenBoundary = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
             
+            if (Mathf.Abs(position.X) + radius >= screenBoundary.x || Mathf.Abs(position.Y) + radius >= screenBoundary.y)
+            {
+                World.Instance.SetComponent<IsColliding>(entity, new IsColliding());  
+            }
         });
+
     }
 }

@@ -22,10 +22,13 @@ MonoBehaviour:
   - initialSize: 4
     initialPosition: {x: 0, y: 0}
     initialVelocity: {x: 1, y: 0}
-  - initialSize: 5
+  - initialSize: 11
     initialPosition: {x: 0, y: 0}
-    initialVelocity: {x: 0, y: 1}
+    initialVelocity: {x: 0, y: 0.5}
   systemsEnabled:
     keys:
     - InitSys
-    values: 01
+    - PositionSys
+    - RenderSys
+    - ExplosionSys
+    values: 01010101
