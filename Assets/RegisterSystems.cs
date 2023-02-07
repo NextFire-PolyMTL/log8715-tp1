@@ -9,10 +9,11 @@ public class RegisterSystems
 
         // Add your systems here
         toRegister.Add(new InitSys());
+        
+        toRegister.Add(new CollisionSys());
         toRegister.Add(new PositionSys());
         toRegister.Add(new RenderSys());
         toRegister.Add(new ExplosionSys());
-        toRegister.Add(new CollisionSys());
 
         return toRegister;
     }

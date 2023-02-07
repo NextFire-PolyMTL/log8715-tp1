@@ -1,3 +1,4 @@
+using UnityEngine;
 public class InitSys : ISystem
 {
     public string Name => "InitSys";
