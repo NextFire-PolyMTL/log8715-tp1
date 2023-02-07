@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public readonly struct Entity
 {
@@ -13,7 +14,7 @@ public readonly struct Entity
 
 public class World
 {
-    const int MAX_ENTITIES = 1024;
+    const int POOL_SIZE = 1024;
 
     #region Singleton
     private static World s_instance;
@@ -31,78 +32,82 @@ public class World
     #endregion
 
     private Dictionary<Type, IComponent[]> components = new Dictionary<Type, IComponent[]>();
-    private Entity?[] entities = new Entity?[MAX_ENTITIES];
+    private Dictionary<int, int> idToIndex = new Dictionary<int, int>();
+    private Dictionary<int, Entity> indexToEntity = new Dictionary<int, Entity>();
+    private int nextId = 0;
+    private int nextIndex = 0;
 
     private World() { }
 
     public Entity CreateEntity()
     {
-        for (var i = 0; i < MAX_ENTITIES; i++)
+        if (nextIndex >= POOL_SIZE)
         {
-            if (entities[i] is null)
-            {
-                var entity = new Entity(i);
-                entities[i] = entity;
-                return entity;
-            }
+            throw new Exception("Too many entities");
         }
-        throw new Exception("Max entities reached");
+        var id = nextId++;
+        var index = nextIndex++;
+        var entity = new Entity(id);
+        idToIndex[id] = index;
+        indexToEntity[index] = entity;
+        foreach (var component in components.Values)
+        {
+            component[index] = null;
+        }
+        return entity;
     }
 
     public void DeleteEntity(Entity entity)
     {
-        entities[entity.Id] = null;
+        var index = idToIndex[entity.Id];
+        var lastIndex = --nextIndex;
+        if (lastIndex != index)
+        {
+            indexToEntity[index] = indexToEntity[lastIndex];
+            foreach (var component in components.Values)
+            {
+                component[index] = component[lastIndex];
+            }
+        }
     }
 
-    public T GetComponent<T>(Entity entity) where T : IComponent
+    public T? GetComponent<T>(Entity entity) where T : struct, IComponent
     {
-        if (entities[entity.Id] is null)
-        {
-            throw new Exception("Unknown entity");
-        }
         if (components.ContainsKey(typeof(T)))
         {
-            return (T)components[typeof(T)][entity.Id];
+            var index = idToIndex[entity.Id];
+            return (T?)components[typeof(T)][index];
         }
         return default;
     }
 
-    public void SetComponent<T>(Entity entity, T component) where T : IComponent
+    public void SetComponent<T>(Entity entity, T component) where T : struct, IComponent
     {
-        if (entities[entity.Id] is null)
-        {
-            throw new Exception("Unknown entity");
-        }
         if (!components.ContainsKey(typeof(T)))
         {
-            components[typeof(T)] = new IComponent[MAX_ENTITIES];
+            components[typeof(T)] = new IComponent[POOL_SIZE];
         }
-        components[typeof(T)][entity.Id] = component;
+        var index = idToIndex[entity.Id];
+        components[typeof(T)][index] = component;
     }
 
-    public void RemoveComponent<T>(Entity entity) where T : IComponent
+    public void RemoveComponent<T>(Entity entity) where T : struct, IComponent
     {
-        if (entities[entity.Id] is null)
-        {
-            throw new Exception("Unknown entity");
-        }
         if (components.ContainsKey(typeof(T)))
         {
-            components[typeof(T)][entity.Id] = null;
+            var index = idToIndex[entity.Id];
+            components[typeof(T)][index] = null;
         }
     }
 
-    public void ForEach<T>(Action<Entity, T> action) where T : IComponent
+    public void ForEach<T>(Action<Entity, T?> action) where T : struct, IComponent
     {
         if (components.ContainsKey(typeof(T)))
         {
             var componentArray = components[typeof(T)];
-            for (var i = 0; i < MAX_ENTITIES; i++)
+            for (var i = 0; i < nextIndex; i++)
             {
-                if (entities[i] is Entity entity)
-                {
-                    action(entity, (T)componentArray[i]);
-                }
+                action(indexToEntity[i], (T?)componentArray[i]);
             }
         }
     }

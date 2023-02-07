@@ -6,7 +6,7 @@ public class RenderSys : ISystem
     {
         World.Instance.ForEach<Position>((entity, position) =>
         {
-            ECSManager.Instance.UpdateShapePosition((uint)entity.Id, new UnityEngine.Vector2(position.X, position.Y));
+            ECSManager.Instance.UpdateShapePosition((uint)entity.Id, new UnityEngine.Vector2(position.Value.X, position.Value.Y));
         });
     }
 }
