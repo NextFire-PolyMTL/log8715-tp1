@@ -13,7 +13,7 @@ public class CollisionSys : ISystem
             //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
             //(et en faire peut-être une cst....)
             var screenBoundary = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-            if (Mathf.Abs(position.Value.X) + radius >= screenBoundary.x || Mathf.Abs(position.Value.Y) + radius >= screenBoundary.y)
+            if (Mathf.Abs(position.Value.X) + radius/2 >= screenBoundary.x || Mathf.Abs(position.Value.Y) + radius/2 >= screenBoundary.y)
             {
                 World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
             }

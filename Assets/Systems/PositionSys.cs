@@ -27,7 +27,7 @@ public class PositionSys : ISystem
             
             if (isColliding.HasValue && !collidedShapes.HasValue)
             {
-                if (Mathf.Abs(position.Value.X) + radius >= screenBoundary.x)
+                if (Mathf.Abs(position.Value.X) + radius/2 >= screenBoundary.x)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
@@ -42,7 +42,7 @@ public class PositionSys : ISystem
 
                 }
 
-                if (Mathf.Abs(position.Value.Y) + radius >= screenBoundary.y)
+                if (Mathf.Abs(position.Value.Y) + radius/2 >= screenBoundary.y)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
