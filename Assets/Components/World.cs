@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-// using UnityEngine;
+using UnityEngine;
 
 public readonly struct Entity
 {
@@ -34,6 +34,7 @@ public class World
     private Dictionary<Type, IComponent[]> components = new Dictionary<Type, IComponent[]>();
     private Dictionary<int, int> idToIndex = new Dictionary<int, int>();
     private Dictionary<int, Entity> indexToEntity = new Dictionary<int, Entity>();
+    private Stack<int> freeIndexes = new Stack<int>();
     private int nextId = 0;
     private int nextIndex = 0;
 
@@ -41,12 +42,8 @@ public class World
 
     public Entity CreateEntity()
     {
-        if (nextIndex >= POOL_SIZE)
-        {
-            throw new Exception("Too many entities");
-        }
         var id = nextId++;
-        var index = nextIndex++;
+        var index = nextIndex < POOL_SIZE ? nextIndex++ : freeIndexes.Pop();
         var entity = new Entity(id);
         idToIndex[id] = index;
         indexToEntity[index] = entity;
@@ -54,26 +51,15 @@ public class World
         {
             component[index] = null;
         }
-        // Debug.Log($"[CreateEntity] id={id} index={index}");
+        Debug.Log($"[CreateEntity] id={id} index={index}");
         return entity;
     }
 
     public void DeleteEntity(Entity entity)
     {
         var index = idToIndex[entity.Id];
-        var lastIndex = --nextIndex;
-        if (lastIndex != index)
-        {
-            var lastEntity = indexToEntity[lastIndex];
-            idToIndex[lastEntity.Id] = index;
-            indexToEntity[index] = lastEntity;
-            foreach (var component in components.Values)
-            {
-                component[index] = component[lastIndex];
-            }
-            // Debug.Log($"[DeleteEntity] swap: id={lastEntity.Id} prevIndex={lastIndex} newIndex={index}");
-        }
-        // Debug.Log($"[DeleteEntity] deleted: id={entity.Id} index={index}");
+        freeIndexes.Push(index);
+        Debug.Log($"[DeleteEntity] deleted: id={entity.Id} index={index}");
     }
 
     public T? GetComponent<T>(Entity entity) where T : struct, IComponent
@@ -112,7 +98,10 @@ public class World
             var componentArray = components[typeof(T)];
             for (var i = 0; i < nextIndex; i++)
             {
-                action(indexToEntity[i], (T?)componentArray[i]);
+                if (!freeIndexes.Contains(i))
+                {
+                    action(indexToEntity[i], (T?)componentArray[i]);
+                }
             }
         }
     }
