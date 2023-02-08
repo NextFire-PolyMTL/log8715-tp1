@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class CollisionSys : ISystem
 {
@@ -35,39 +35,29 @@ public class CollisionSys : ISystem
                         if (!collidingWith.HasValue)
                         {
                             World.Instance.SetComponent<CollidingWith>(entity,
-                            new CollidingWith(
-                                new int[] { entity2.Id },
-                                new Position[] { new Position(position2.Value.X,position2.Value.Y) },
-                                new Velocity[] { new Velocity(velocity2.Value.Vx,velocity2.Value.Vy) },
-                                new Size[] { new Size(radius2.Value.Radius) }));
-
+                                new CollidingWith(
+                                    new List<int> { entity2.Id },
+                                    new List<Position> { position2.Value },
+                                    new List<Velocity> { velocity2.Value },
+                                    new List<Size> { radius2.Value }
+                                )
+                            );
                             //Debug.Log("coll");
                         }
                         else
                         {
                             //c moche à changer /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
-                            int[] collidedShapes = collidingWith.Value.CollidedShapes;
-                            int[] newCollidedShapes = new int[collidedShapes.Length + 1];
-                            Array.Copy(collidedShapes, newCollidedShapes, collidedShapes.Length);
-                            newCollidedShapes[collidedShapes.Length] = entity2.Id;
+                            var collidedShapes = collidingWith.Value.CollidedShapes;
+                            collidedShapes.Add(entity2.Id);
 
-                            Position[] collidedShapesPosition = collidingWith.Value.CollidedShapesPosition;
-                            Position[] newCollidedShapesPosition = new Position[collidedShapesPosition.Length + 1];
-                            Array.Copy(collidedShapesPosition, newCollidedShapesPosition, collidedShapesPosition.Length);
-                            newCollidedShapesPosition[collidedShapesPosition.Length] = position2.Value;
+                            var collidedShapesPosition = collidingWith.Value.CollidedShapesPosition;
+                            collidedShapesPosition.Add(position2.Value);
 
-                            Velocity[] collidedShapesVelocity = collidingWith.Value.CollidedShapesVelocity;
-                            Velocity[] newCollidedShapesVelocity = new Velocity[collidedShapesVelocity.Length + 1];
-                            Array.Copy(collidedShapesVelocity, newCollidedShapesVelocity, collidedShapesVelocity.Length);
-                            newCollidedShapesVelocity[collidedShapesVelocity.Length] = velocity2.Value;
+                            var collidedShapesVelocity = collidingWith.Value.CollidedShapesVelocity;
+                            collidedShapesVelocity.Add(velocity2.Value);
 
-                            Size[] collidedShapesSize = collidingWith.Value.CollidedShapesSize;
-                            Size[] newCollidedShapesSize = new Size[collidedShapesSize.Length + 1];
-                            Array.Copy(collidedShapesSize, newCollidedShapesSize, collidedShapesSize.Length);
-                            newCollidedShapesSize[collidedShapesSize.Length] = radius2.Value;
-
-                            World.Instance.SetComponent<CollidingWith>(entity,
-                            new CollidingWith(newCollidedShapes, newCollidedShapesPosition, newCollidedShapesVelocity, newCollidedShapesSize));
+                            var collidedShapesSize = collidingWith.Value.CollidedShapesSize;
+                            collidedShapesSize.Add(radius2.Value);
                         }
                     }
                 }

@@ -9,7 +9,7 @@ public class RegisterSystems
 
         // Add your systems here
         toRegister.Add(new InitSys());
-        
+
         toRegister.Add(new CollisionSys());
         //SizeSys doit être exécuté avant PositionSys (car sinon CollidingWith des entités seront supprimé)/!\
         toRegister.Add(new SizeSys());

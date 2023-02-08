@@ -6,7 +6,7 @@ public class PositionSys : ISystem
 
     public void UpdateSystem()
     {
-        
+
 
         World.Instance.ForEach<IsColliding>((entity, isColliding) =>
         {
@@ -59,12 +59,14 @@ public class PositionSys : ISystem
                 World.Instance.RemoveComponent<IsColliding>(entity);
             }
             //code ci-dessous à discuter
-            
-            if(isColliding.HasValue && collidingWith.HasValue){
-                var collidedShapes=collidingWith.Value.CollidedShapes;
-                var collidedShapesPosition=collidingWith.Value.CollidedShapesPosition;
-                var collidedShapesVelocity=collidingWith.Value.CollidedShapesVelocity;
-                for (var i=0;i<collidedShapes.Length;i++){
+
+            if (isColliding.HasValue && collidingWith.HasValue)
+            {
+                var collidedShapes = collidingWith.Value.CollidedShapes;
+                var collidedShapesPosition = collidingWith.Value.CollidedShapesPosition;
+                var collidedShapesVelocity = collidingWith.Value.CollidedShapesVelocity;
+                for (var i = 0; i < collidedShapes.Count; i++)
+                {
 
                     var position2 = collidedShapesPosition[i]; //World.Instance.GetComponent<Position>(new Entity(collidedShape));
                     var velocity2 = collidedShapesVelocity[i];//World.Instance.GetComponent<Velocity>(new Entity(collidedShape));
@@ -79,14 +81,14 @@ public class PositionSys : ISystem
                     );
                     World.Instance.SetComponent<Position>(entity, new Position(newPosVit.position1[0], newPosVit.position1[1]));
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
-                
+
                 }
                 World.Instance.RemoveComponent<IsColliding>(entity);
                 World.Instance.RemoveComponent<CollidingWith>(entity);
                 //Debug.Log("erase");
-                
+
             }
-            
+
 
         });
 

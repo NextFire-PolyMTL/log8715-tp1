@@ -1,15 +1,17 @@
+using System.Collections.Generic;
+
 public readonly struct CollidingWith : IComponent
 {
-    public CollidingWith(int[] collidedShapes,Position[] collidedShapesPosition,Velocity[] collidedShapesVelocity,Size[] collidedShapesSize)
+    public CollidingWith(List<int> collidedShapes, List<Position> collidedShapesPosition, List<Velocity> collidedShapesVelocity, List<Size> collidedShapesSize)
     {
         CollidedShapes = collidedShapes;
-        CollidedShapesPosition=collidedShapesPosition;
-        CollidedShapesVelocity=collidedShapesVelocity;
-        CollidedShapesSize=collidedShapesSize;
+        CollidedShapesPosition = collidedShapesPosition;
+        CollidedShapesVelocity = collidedShapesVelocity;
+        CollidedShapesSize = collidedShapesSize;
     }
 
-    public readonly int[] CollidedShapes;
-    public readonly Position[] CollidedShapesPosition;
-    public readonly Velocity[] CollidedShapesVelocity;
-    public readonly Size[] CollidedShapesSize;
+    public readonly List<int> CollidedShapes;
+    public readonly List<Position> CollidedShapesPosition;
+    public readonly List<Velocity> CollidedShapesVelocity;
+    public readonly List<Size> CollidedShapesSize;
 }
