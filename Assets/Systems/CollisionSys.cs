@@ -31,8 +31,10 @@ public class CollisionSys : ISystem
                     {
                         World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                         var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
+                        Debug.Log("collision");
                         if (!collidingWith.HasValue)
                         {
+                            
                             World.Instance.SetComponent<CollidingWith>(entity, 
                             new CollidingWith(new int[] {entity2.Id},new Position[] {position2.Value},new Velocity[] {velocity2.Value}, new Size[] {radius2.Value}));
                         }

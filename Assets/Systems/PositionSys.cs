@@ -6,7 +6,7 @@ public class PositionSys : ISystem
 
     public void UpdateSystem()
     {
-
+        
 
         World.Instance.ForEach<IsColliding>((entity, isColliding) =>
         {

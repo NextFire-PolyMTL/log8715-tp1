@@ -11,6 +11,8 @@ public class RegisterSystems
         toRegister.Add(new InitSys());
         
         toRegister.Add(new CollisionSys());
+        //SizeSys doit être exécuté avant PositionSys (car sinon CollidingWith des entités seront supprimé)/!\
+        toRegister.Add(new SizeSys());
         toRegister.Add(new PositionSys());
         toRegister.Add(new RenderSys());
         toRegister.Add(new ExplosionSys());

@@ -8,5 +8,11 @@ public class RenderSys : ISystem
         {
             ECSManager.Instance.UpdateShapePosition((uint)entity.Id, new UnityEngine.Vector2(position.Value.X, position.Value.Y));
         });
+        
+        //Est-ce qu'il faudrait mettre l'update du size dans la boucle précédente ? -> pb de maintenabilité ?
+        World.Instance.ForEach<Size>((entity, size) =>
+        {
+            ECSManager.Instance.UpdateShapeSize((uint)entity.Id, size.Value.Radius);
+        });
     }
 }
