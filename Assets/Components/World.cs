@@ -34,9 +34,11 @@ public class World
     private Dictionary<Type, IComponent[]> components = new Dictionary<Type, IComponent[]>();
     private Dictionary<int, int> idToIndex = new Dictionary<int, int>();
     private Dictionary<int, Entity> indexToEntity = new Dictionary<int, Entity>();
-    private Stack<int> freeIndexes = new Stack<int>();
     private int nextId = 0;
     private int nextIndex = 0;
+    private Stack<int> freeIndexes = new Stack<int>();
+
+    private Dictionary<Type, IComponent> singletons = new Dictionary<Type, IComponent>();
 
     private World() { }
 
@@ -104,5 +106,19 @@ public class World
                 }
             }
         }
+    }
+
+    public T? GetSingleton<T>() where T : struct, IComponent
+    {
+        if (singletons.ContainsKey(typeof(T)))
+        {
+            return (T?)singletons[typeof(T)];
+        }
+        return null;
+    }
+
+    public void SetSingleton<T>(T value) where T : struct, IComponent
+    {
+        singletons[typeof(T)] = value;
     }
 }
