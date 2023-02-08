@@ -18,6 +18,10 @@ public class InitSys : ISystem
                 World.Instance.SetComponent<Velocity>(entity, new Velocity(shape.initialVelocity.x, shape.initialVelocity.y));
                 ECSManager.Instance.CreateShape((uint)entity.Id, shape.initialSize);
             }
+            World.Instance.SetSingleton<ScreenBoundary>(
+                new ScreenBoundary(
+                    Camera.main.ScreenToWorldPoint(
+                        new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z))));
         }
     }
 }

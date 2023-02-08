@@ -6,7 +6,7 @@ public class PositionSys : ISystem
 
     public void UpdateSystem()
     {
-
+        var screenBoundary = World.Instance.GetSingleton<ScreenBoundary>().Value;
 
         World.Instance.ForEach<IsColliding>((entity, isColliding) =>
         {
@@ -21,13 +21,9 @@ public class PositionSys : ISystem
             var radius = World.Instance.GetComponent<Size>(entity).Value.Radius;
             var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
 
-            //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
-            //(et en faire peut-être une cst....)
-            var screenBoundary = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-
             if (isColliding.HasValue && !collidingWith.HasValue)
             {
-                if (Mathf.Abs(position.Value.X) + radius / 2 >= screenBoundary.x)
+                if (Mathf.Abs(position.Value.X) + radius / 2 >= screenBoundary.Value.x)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
@@ -42,7 +38,7 @@ public class PositionSys : ISystem
 
                 }
 
-                if (Mathf.Abs(position.Value.Y) + radius / 2 >= screenBoundary.y)
+                if (Mathf.Abs(position.Value.Y) + radius / 2 >= screenBoundary.Value.y)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
