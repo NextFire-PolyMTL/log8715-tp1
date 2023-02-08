@@ -59,21 +59,22 @@ public class PositionSys : ISystem
                 World.Instance.RemoveComponent<IsColliding>(entity);
             }
             //code ci-dessous à discuter
-            /*
+            
             if(isColliding.HasValue && collidingWith.HasValue){
-                Debug.Log("ça marche");
                 var collidedShapes=collidingWith.Value.CollidedShapes;
-                foreach (var collidedShape in collidedShapes){
+                var collidedShapesPosition=collidingWith.Value.CollidedShapesPosition;
+                var collidedShapesVelocity=collidingWith.Value.CollidedShapesVelocity;
+                for (var i=0;i<collidedShapes.Length;i++){
 
-                    var position2 = World.Instance.GetComponent<Position>(collidedShape);
-                    var velocity2 = World.Instance.GetComponent<Velocity>(collidedShape);
-                    var radius2 = World.Instance.GetComponent<Size>(collidedShape).Value.Radius;
+                    var position2 = collidedShapesPosition[i]; //World.Instance.GetComponent<Position>(new Entity(collidedShape));
+                    var velocity2 = collidedShapesVelocity[i];//World.Instance.GetComponent<Velocity>(new Entity(collidedShape));
+                    var radius2 = World.Instance.GetComponent<Size>(new Entity(collidedShapes[i])).Value.Radius;
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
                         radius,
-                        new Vector2(position2.Value.X, position2.Value.Y),
-                        new Vector2(velocity2.Value.Vx, velocity2.Value.Vy),
+                        new Vector2(position2.X, position2.Y),
+                        new Vector2(velocity2.Vx, velocity2.Vy),
                         radius2
                     );
                     World.Instance.SetComponent<Position>(entity, new Position(newPosVit.position1[0], newPosVit.position1[1]));
@@ -84,7 +85,7 @@ public class PositionSys : ISystem
                 World.Instance.RemoveComponent<CollidingWith>(entity);
                 
             }
-            */
+            
 
         });
 
