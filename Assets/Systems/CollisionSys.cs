@@ -7,14 +7,13 @@ public class CollisionSys : ISystem
 
     public void UpdateSystem()
     {
+         var screenBoundary = World.Instance.GetSingleton<ScreenBoundary>().Value;
+
         World.Instance.ForEach<Position>((entity, position) =>
         {
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
 
-            //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
-            //(et en faire peut-être une cst....)
-            var screenBoundary = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-            if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.x || Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.y)
+            if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x || Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y)
             {
                 World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
             }
@@ -22,12 +21,12 @@ public class CollisionSys : ISystem
 
             World.Instance.ForEach<Position>((entity2, position2) =>
             {
-                var radius2 = World.Instance.GetComponent<Size>(entity2);
+                var scale2 = World.Instance.GetComponent<Size>(entity2);
                 var velocity2 = World.Instance.GetComponent<Velocity>(entity2);
                 if (entity2.Id != entity.Id)
                 {
                     if (Mathf.Sqrt(Mathf.Pow((position.Value.X - position2.Value.X), 2)
-                    + Mathf.Pow((position.Value.Y - position2.Value.Y), 2)) <= (scale + radius2.Value.Scale) / 2)
+                    + Mathf.Pow((position.Value.Y - position2.Value.Y), 2)) <= (scale + scale2.Value.Scale) / 2)
                     {
                         World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                         var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
@@ -39,7 +38,7 @@ public class CollisionSys : ISystem
                                     new List<int> { entity2.Id },
                                     new List<Position> { position2.Value },
                                     new List<Velocity> { velocity2.Value },
-                                    new List<Size> { radius2.Value }
+                                    new List<Size> { scale2.Value }
                                 )
                             );
                             //Debug.Log("coll");
@@ -57,7 +56,7 @@ public class CollisionSys : ISystem
                             collidedShapesVelocity.Add(velocity2.Value);
 
                             var collidedShapesSize = collidingWith.Value.CollidedShapesSize;
-                            collidedShapesSize.Add(radius2.Value);
+                            collidedShapesSize.Add(scale2.Value);
                         }
                     }
                 }

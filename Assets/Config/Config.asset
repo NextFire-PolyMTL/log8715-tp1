@@ -20,8 +20,8 @@ MonoBehaviour:
   protectionCooldown: 15
   circleInstancesToSpawn:
   - initialSize: 4
-    initialPosition: {x: 0, y: 0}
-    initialVelocity: {x: 1, y: -0.1}
+    initialPosition: {x: 4, y: 1}
+    initialVelocity: {x: 1, y: -0.25}
   - initialSize: 8
     initialPosition: {x: 0, y: 0}
     initialVelocity: {x: -0.25, y: 0.25}
@@ -33,4 +33,5 @@ MonoBehaviour:
     - ExplosionSys
     - CollisionSys
     - ClickSys
-    values: 010101010101
+    - SizeSys
+    values: 01010101010101
