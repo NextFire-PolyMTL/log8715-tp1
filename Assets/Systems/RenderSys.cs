@@ -18,7 +18,6 @@ public class RenderSys : ISystem
 
         World.Instance.ForEach<ColorCompo>((entity, colorCompo) =>
         {
-            Debug.Log($"ed");
             if (colorCompo.HasValue)
             {
                 ECSManager.Instance.UpdateShapeColor((uint)entity.Id, colorCompo.Value.ShapeColor);

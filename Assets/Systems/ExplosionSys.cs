@@ -25,13 +25,13 @@ public class ExplosionSys : ISystem
                     size.Value.Scale
                 );
                 var newEntity = World.Instance.CreateEntity();
-                World.Instance.SetComponent<Size>(newEntity, new Size(size.Value.Scale / 2));
+                World.Instance.SetComponent<Size>(newEntity, new Size(size.Value.Scale>>1));
                 World.Instance.SetComponent<Position>(newEntity, new Position(newPosVit.position1[0], newPosVit.position1[1]));
                 World.Instance.SetComponent<Velocity>(newEntity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
                 ECSManager.Instance.CreateShape((uint)newEntity.Id, (int)size.Value.Scale / 2);
 
                 newEntity = World.Instance.CreateEntity();
-                World.Instance.SetComponent<Size>(newEntity, new Size(size.Value.Scale / 2));
+                World.Instance.SetComponent<Size>(newEntity, new Size(size.Value.Scale>>1));
                 World.Instance.SetComponent<Position>(newEntity, new Position(newPosVit.position2[0], newPosVit.position2[1]));
                 World.Instance.SetComponent<Velocity>(newEntity, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
                 ECSManager.Instance.CreateShape((uint)newEntity.Id, (int)size.Value.Scale / 2);
