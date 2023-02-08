@@ -26,6 +26,8 @@ public class InitSys : ISystem
                 new ScreenBoundary(
                     Camera.main.ScreenToWorldPoint(
                         new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z))));
+            // Setting the seed of the random Generator
+            UnityEngine.Random.InitState(ECSManager.Instance.Config.seed);
         }
     }
 }
