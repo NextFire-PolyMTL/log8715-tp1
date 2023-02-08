@@ -16,6 +16,10 @@ public class InitSys : ISystem
                 World.Instance.SetComponent<Size>(entity, new Size(shape.initialSize));
                 World.Instance.SetComponent<Position>(entity, new Position(shape.initialPosition.x, shape.initialPosition.y));
                 World.Instance.SetComponent<Velocity>(entity, new Velocity(shape.initialVelocity.x, shape.initialVelocity.y));
+                if (shape.initialVelocity.x == 0 && shape.initialVelocity.y == 0)
+                {
+                    World.Instance.SetComponent<IsStatic>(entity, new IsStatic());
+                }
                 ECSManager.Instance.CreateShape((uint)entity.Id, shape.initialSize);
             }
             World.Instance.SetSingleton<ScreenBoundary>(

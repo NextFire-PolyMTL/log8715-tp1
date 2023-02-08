@@ -1,3 +1,4 @@
+using UnityEngine;
 public class RenderSys : ISystem
 {
     public string Name => "RenderSys";
@@ -13,6 +14,15 @@ public class RenderSys : ISystem
         World.Instance.ForEach<Size>((entity, size) =>
         {
             ECSManager.Instance.UpdateShapeSize((uint)entity.Id, size.Value.Scale);
+        });
+
+        World.Instance.ForEach<ColorCompo>((entity, colorCompo) =>
+        {
+            Debug.Log($"ed");
+            if (colorCompo.HasValue)
+            {
+                ECSManager.Instance.UpdateShapeColor((uint)entity.Id, colorCompo.Value.ShapeColor);
+            }
         });
     }
 }

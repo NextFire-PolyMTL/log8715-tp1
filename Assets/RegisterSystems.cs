@@ -14,9 +14,10 @@ public class RegisterSystems
         //SizeSys doit être exécuté avant PositionSys (car sinon CollidingWith des entités seront supprimé)/!\
         toRegister.Add(new SizeSys());
         toRegister.Add(new PositionSys());
-        toRegister.Add(new RenderSys());
         toRegister.Add(new ExplosionSys());
         toRegister.Add(new ClickSys());
+        toRegister.Add(new ColorSys());
+        toRegister.Add(new RenderSys());
 
         return toRegister;
     }

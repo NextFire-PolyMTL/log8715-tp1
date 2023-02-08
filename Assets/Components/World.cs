@@ -53,7 +53,7 @@ public class World
         {
             component[index] = null;
         }
-        Debug.Log($"[CreateEntity] id={id} index={index}");
+        //Debug.Log($"[CreateEntity] id={id} index={index}");
         return entity;
     }
 
@@ -61,7 +61,7 @@ public class World
     {
         var index = idToIndex[entity.Id];
         freeIndexes.Push(index);
-        Debug.Log($"[DeleteEntity] deleted: id={entity.Id} index={index}");
+        //Debug.Log($"[DeleteEntity] deleted: id={entity.Id} index={index}");
     }
 
     public T? GetComponent<T>(Entity entity) where T : struct, IComponent
