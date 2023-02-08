@@ -18,35 +18,35 @@ public class PositionSys : ISystem
             */
             var position = World.Instance.GetComponent<Position>(entity);
             var velocity = World.Instance.GetComponent<Velocity>(entity);
-            var radius = World.Instance.GetComponent<Size>(entity).Value.Radius;
+            var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
             var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
 
             if (isColliding.HasValue && !collidingWith.HasValue)
             {
-                if (Mathf.Abs(position.Value.X) + radius / 2 >= screenBoundary.Value.x)
+                if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
-                        radius,
+                        scale,
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(-velocity.Value.Vx, velocity.Value.Vy),
-                        radius
+                        scale
                     );
                     World.Instance.SetComponent<Position>(entity, new Position(newPosVit.position1[0], newPosVit.position1[1]));
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
 
                 }
 
-                if (Mathf.Abs(position.Value.Y) + radius / 2 >= screenBoundary.Value.y)
+                if (Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
-                        radius,
+                        scale,
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, -velocity.Value.Vy),
-                        radius
+                        scale
                     );
                     World.Instance.SetComponent<Position>(entity, new Position(newPosVit.position2[0], newPosVit.position2[1]));
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
@@ -66,14 +66,14 @@ public class PositionSys : ISystem
 
                     var position2 = collidedShapesPosition[i]; //World.Instance.GetComponent<Position>(new Entity(collidedShape));
                     var velocity2 = collidedShapesVelocity[i];//World.Instance.GetComponent<Velocity>(new Entity(collidedShape));
-                    var radius2 = World.Instance.GetComponent<Size>(new Entity(collidedShapes[i])).Value.Radius;
+                    var scale2 = World.Instance.GetComponent<Size>(new Entity(collidedShapes[i])).Value.Scale;
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
-                        radius,
+                        scale,
                         new Vector2(position2.X, position2.Y),
                         new Vector2(velocity2.Vx, velocity2.Vy),
-                        radius2
+                        scale2
                     );
                     World.Instance.SetComponent<Position>(entity, new Position(newPosVit.position1[0], newPosVit.position1[1]));
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));

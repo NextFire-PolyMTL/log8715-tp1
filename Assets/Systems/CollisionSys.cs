@@ -9,12 +9,12 @@ public class CollisionSys : ISystem
     {
         World.Instance.ForEach<Position>((entity, position) =>
         {
-            var radius = World.Instance.GetComponent<Size>(entity).Value.Radius;
+            var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
 
             //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
             //(et en faire peut-être une cst....)
             var screenBoundary = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-            if (Mathf.Abs(position.Value.X) + radius / 2 >= screenBoundary.x || Mathf.Abs(position.Value.Y) + radius / 2 >= screenBoundary.y)
+            if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.x || Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.y)
             {
                 World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
             }
@@ -27,7 +27,7 @@ public class CollisionSys : ISystem
                 if (entity2.Id != entity.Id)
                 {
                     if (Mathf.Sqrt(Mathf.Pow((position.Value.X - position2.Value.X), 2)
-                    + Mathf.Pow((position.Value.Y - position2.Value.Y), 2)) <= (radius + radius2.Value.Radius) / 2)
+                    + Mathf.Pow((position.Value.Y - position2.Value.Y), 2)) <= (scale + radius2.Value.Scale) / 2)
                     {
                         World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                         var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);

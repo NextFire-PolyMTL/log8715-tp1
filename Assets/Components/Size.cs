@@ -1,9 +1,9 @@
 public readonly struct Size : IComponent
 {
-    public Size(float radius)
+    public Size(float scale)
     {
-        Radius = radius;
+        Scale = scale;
     }
 
-    public readonly float Radius;
+    public readonly float Scale;
 }

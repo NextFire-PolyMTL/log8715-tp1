@@ -7,11 +7,10 @@ public class SizeSys : ISystem
     public void UpdateSystem()
     {
 
-
         World.Instance.ForEach<CollidingWith>((entity, collidingWith) =>
         {
 
-            var size = World.Instance.GetComponent<Size>(entity).Value.Radius;
+            var scame = World.Instance.GetComponent<Size>(entity).Value.Scale;
             if (collidingWith.HasValue)
             {
 
@@ -20,26 +19,26 @@ public class SizeSys : ISystem
                 var collidedShapesSize = collidingWith.Value.CollidedShapesSize;
                 for (var i = 0; i < collidedShapes.Count; i++)
                 {
-                    var size2 = collidedShapesSize[i].Radius;
+                    var scale2 = collidedShapesSize[i].Scale;
                     //Debug.Log("deb");
 
-                    if (size2 > size)
+                    if (scale2 > scame)
                     {
-                        --size;
-                        World.Instance.SetComponent<Size>(entity, new Size(size));
+                        --scame;
+                        World.Instance.SetComponent<Size>(entity, new Size(scame));
                         //Changer CollidingWith pour éviter d'instencier des Entité à chaque fois
                         //World.Instance.SetComponent<Size>(new Entity(collidedShapes[i]), new Size(size2 + 1));
                     }
 
-                    if (size2 < size)
+                    if (scale2 < scame)
                     {
-                        ++size;
-                        World.Instance.SetComponent<Size>(entity, new Size(size));
+                        ++scame;
+                        World.Instance.SetComponent<Size>(entity, new Size(scame));
                         //Changer CollidingWith pour éviter d'instencier des Entité à chaque fois
                         //World.Instance.SetComponent<Size>(new Entity(collidedShapes[i]), new Size(size2 - 1));
                     }
 
-                    if (size < 1)
+                    if (scame < 1)
                     {
                         World.Instance.DeleteEntity(entity);
                         ECSManager.Instance.DestroyShape((uint)entity.Id);
