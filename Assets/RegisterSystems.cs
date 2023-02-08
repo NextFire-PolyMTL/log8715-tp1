@@ -19,6 +19,7 @@ public class RegisterSystems
         toRegister.Add(new ExplosionSys());
         toRegister.Add(new ClickSys());
         toRegister.Add(new RenderSys());
+        toRegister.Add(new ProtectionSys());
 
         return toRegister;
     }
