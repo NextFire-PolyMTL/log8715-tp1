@@ -83,6 +83,7 @@ public class PositionSys : ISystem
                 }
                 World.Instance.RemoveComponent<IsColliding>(entity);
                 World.Instance.RemoveComponent<CollidingWith>(entity);
+                //Debug.Log("erase");
                 
             }
             
