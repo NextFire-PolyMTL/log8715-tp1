@@ -22,9 +22,12 @@ MonoBehaviour:
   - initialSize: 4
     initialPosition: {x: 4, y: 1}
     initialVelocity: {x: 1, y: -0.25}
-  - initialSize: 8
-    initialPosition: {x: 0, y: 0}
+  - initialSize: 4
+    initialPosition: {x: -5, y: -5}
     initialVelocity: {x: -0.25, y: 0.25}
+  - initialSize: 1
+    initialPosition: {x: 5, y: 5}
+    initialVelocity: {x: 0, y: 0}
   systemsEnabled:
     keys:
     - InitSys
@@ -34,4 +37,5 @@ MonoBehaviour:
     - CollisionSys
     - ClickSys
     - SizeSys
-    values: 01010101010101
+    - ColorSys
+    values: 0101010101010101

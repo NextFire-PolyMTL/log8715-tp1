@@ -11,6 +11,11 @@ public class CollisionSys : ISystem
 
         World.Instance.ForEach<Position>((entity, position) =>
         {
+            var isStatic = World.Instance.GetComponent<IsStatic>(entity);
+            if (isStatic.HasValue)
+            {
+                return;
+            }
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
 
             if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x || Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y)

@@ -16,6 +16,7 @@ public class PositionSys : ISystem
                 return;
             }
             */
+            
             var position = World.Instance.GetComponent<Position>(entity);
             var velocity = World.Instance.GetComponent<Velocity>(entity);
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
@@ -90,6 +91,11 @@ public class PositionSys : ISystem
 
         World.Instance.ForEach<Velocity>((entity, velocity) =>
         {
+            var isStatic = World.Instance.GetComponent<IsStatic>(entity);
+            if (isStatic.HasValue)
+            {
+                return;
+            }
             var position = World.Instance.GetComponent<Position>(entity);
             World.Instance.SetComponent<Position>(entity, new Position(position.Value.X + velocity.Value.Vx, position.Value.Y + velocity.Value.Vy));
         });
