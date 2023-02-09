@@ -10,9 +10,7 @@ public class ClickSys : ISystem
         //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var mouseClick = (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2));
-        if(Input.GetMouseButtonDown(0)){
-            Debug.Log("a click");
-        }
+    
         World.Instance.ForEach<Position>((entity, position) =>
         {
 
