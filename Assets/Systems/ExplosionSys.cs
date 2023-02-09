@@ -30,14 +30,18 @@ public class ExplosionSys : ISystem
                 World.Instance.SetComponent<Velocity>(newEntity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
                 ECSManager.Instance.CreateShape((uint)newEntity.Id, (int)size.Value.Scale / 2);
 
-                newEntity = World.Instance.CreateEntity();
-                World.Instance.SetComponent<Size>(newEntity, new Size(size.Value.Scale>>1));
-                World.Instance.SetComponent<Position>(newEntity, new Position(newPosVit.position2[0], newPosVit.position2[1]));
-                World.Instance.SetComponent<Velocity>(newEntity, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
-                ECSManager.Instance.CreateShape((uint)newEntity.Id, (int)size.Value.Scale / 2);
+                var newEntity2 = World.Instance.CreateEntity();
+                World.Instance.SetComponent<Size>(newEntity2, new Size(size.Value.Scale>>1));
+                World.Instance.SetComponent<Position>(newEntity2, new Position(newPosVit.position2[0], newPosVit.position2[1]));
+                World.Instance.SetComponent<Velocity>(newEntity2, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
+                ECSManager.Instance.CreateShape((uint)newEntity2.Id, (int)size.Value.Scale / 2);
 
                 World.Instance.DeleteEntity(entity);
                 ECSManager.Instance.DestroyShape((uint)entity.Id);
+                if(isClicked.HasValue){
+                    World.Instance.SetComponent<BornOfClick>(newEntity,new BornOfClick());
+                    World.Instance.SetComponent<BornOfClick>(newEntity2,new BornOfClick());
+                }
             }
         });
     }

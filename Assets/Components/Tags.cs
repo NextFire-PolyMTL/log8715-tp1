@@ -6,3 +6,4 @@ public readonly struct IsColliding : IComponent { }
 public readonly struct IsCollided : IComponent { }
 
 public readonly struct IsClicked : IComponent { }
+public readonly struct BornOfClick : IComponent { }
