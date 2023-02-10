@@ -37,7 +37,6 @@ public class BacktrackSys : ISystem
             else
             {
                 var backup = worldBackups.Dequeue();
-                World.Instance = backup.World;
                 Debug.Log($"[Backtrack] Rollback of {currTime - backup.Timestamp} seconds");
 
                 // Delete all current shapes
@@ -45,6 +44,8 @@ public class BacktrackSys : ISystem
                 {
                     ECSManager.Instance.DestroyShape((uint)entity.Id);
                 });
+
+                World.Instance = backup.World;
 
                 // Recreate shapes with the matching ids from the backup
                 World.Instance.ForEach<Position>((entity, position) =>
