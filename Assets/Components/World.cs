@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public readonly struct Entity
 {
@@ -128,14 +127,14 @@ public class World
     {
         var clone = new World();
 
-        // Simple value attributes copy
+        // Simple value attributes
         clone._idToIndex = new Dictionary<int, int>(_idToIndex);
         clone._indexToEntity = new Dictionary<int, Entity>(_indexToEntity);
         clone._nextId = _nextId;
         clone._nextIndex = _nextIndex;
         clone._freeIndexes = new Stack<int>(_freeIndexes);
 
-        // Deep copy of components
+        // Components
         foreach (var kvp in _components)
         {
             var componentArray = kvp.Value;
@@ -150,7 +149,7 @@ public class World
             clone._components[kvp.Key] = cloneArray;
         }
 
-        // Deep copy of singletons
+        // Singletons
         foreach (var kvp in _singletons)
         {
             if (kvp.Value is IComponent component)
@@ -161,16 +160,4 @@ public class World
 
         return clone;
     }
-}
-
-public readonly struct WorldBackup
-{
-    public WorldBackup(float timestamp, World world)
-    {
-        Timestamp = timestamp;
-        World = world;
-    }
-
-    public readonly float Timestamp;
-    public readonly World World;
 }

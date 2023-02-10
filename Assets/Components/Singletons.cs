@@ -13,9 +13,20 @@ public readonly struct ScreenBoundary : IComponent
     public readonly Vector3 Value;
 }
 
-
 public readonly struct Backups : IComponent
 {
+    public readonly struct WorldBackup
+    {
+        public WorldBackup(float timestamp, World world)
+        {
+            Timestamp = timestamp;
+            World = world;
+        }
+
+        public readonly float Timestamp;
+        public readonly World World;
+    }
+
     public Backups(Queue<WorldBackup> worldBackups)
     {
         WorldBackups = worldBackups;
@@ -23,7 +34,6 @@ public readonly struct Backups : IComponent
 
     public readonly Queue<WorldBackup> WorldBackups;
 }
-
 
 public readonly struct LastBacktrack : IComponent
 {

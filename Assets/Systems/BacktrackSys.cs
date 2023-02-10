@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BacktrackSys : ISystem
@@ -22,8 +21,8 @@ public class BacktrackSys : ISystem
         }
 
         // Add new backup
-        var clone = World.Instance.Clone(ComponentCloner);
-        worldBackups.Enqueue(new WorldBackup(currTime, clone));
+        var clone = World.Instance.Clone(Utils.ComponentCloner);
+        worldBackups.Enqueue(new Backups.WorldBackup(currTime, clone));
 
         // Rollback on space
         if (Input.GetKey(KeyCode.Space))
@@ -57,24 +56,6 @@ public class BacktrackSys : ISystem
 
                 World.Instance.SetSingleton<LastBacktrack>(new LastBacktrack(currTime));
             }
-        }
-    }
-
-    private IComponent ComponentCloner(IComponent component)
-    {
-        switch (component)
-        {
-            // case everything that needs deep copy (reference types)
-            case CollidingWith collidingWith:
-                var CollidedShapes = new List<int>(collidingWith.CollidedShapes);
-                var CollidedShapesPosition = new List<Position>(collidingWith.CollidedShapesPosition);
-                var CollidedShapesVelocity = new List<Velocity>(collidingWith.CollidedShapesVelocity);
-                var CollidedShapesSize = new List<Size>(collidingWith.CollidedShapesSize);
-                return new CollidingWith(CollidedShapes, CollidedShapesPosition, CollidedShapesVelocity, CollidedShapesSize);
-
-            // default to shallow copy (value types)
-            default:
-                return component;
         }
     }
 }
