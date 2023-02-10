@@ -17,6 +17,7 @@ public class ColorSys : IPhysicSystem
             var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
             var isCollided = World.Instance.GetComponent<IsCollided>(entity);
+            var isProtected = World.Instance.GetComponent<IsProtected>(entity);
 
             if (isStatic.HasValue)
             {
@@ -38,8 +39,13 @@ public class ColorSys : IPhysicSystem
             {
                 World.Instance.SetComponent<ColorCompo>(entity, new ColorCompo(Color.blue));
             }
-
-
+            // TODO remove (just for debug)
+            if (isProtected.HasValue)
+            {
+                Color color = World.Instance.GetComponent<ColorCompo>(entity).Value.ShapeColor;
+                // World.Instance.SetComponent<ColorCompo>(entity, new ColorCompo(new Color(color.r, color.g, color.b, 0.5f)));
+                World.Instance.SetComponent<ColorCompo>(entity, new ColorCompo(new Color(204, 59, 43)));
+            }
         });
     }
 }
