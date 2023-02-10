@@ -8,18 +8,24 @@ public class RegisterSystems
         var toRegister = new List<ISystem>();
 
         // Add your systems here
+        /* Initialization */
         toRegister.Add(new InitSys());
 
-        toRegister.Add(new CollisionSys());
-        //SizeSys doit être exécuté avant PositionSys (car sinon CollidingWith des entités seront supprimé)/!\
-        toRegister.Add(new SizeSys());
+        /* Backtracking */
+        toRegister.Add(new BacktrackSys());
 
+        /* Physics */
+        toRegister.Add(new CollisionSys());
+        // SizeSys doit être exécuté avant PositionSys (car sinon CollidingWith des entités seront supprimé)
+        toRegister.Add(new SizeSys());
         toRegister.Add(new ColorSys());
         toRegister.Add(new PositionSys());
         toRegister.Add(new ExplosionSys());
         toRegister.Add(new ClickSys());
-        toRegister.Add(new RenderSys());
         toRegister.Add(new ProtectionSys());
+
+        /* Rendering */
+        toRegister.Add(new RenderSys());
 
         return toRegister;
     }

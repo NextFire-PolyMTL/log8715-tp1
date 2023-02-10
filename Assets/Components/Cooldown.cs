@@ -4,5 +4,6 @@ public readonly struct Cooldown : IComponent
     {
         Time = t;
     }
+
     public readonly float Time;
 }

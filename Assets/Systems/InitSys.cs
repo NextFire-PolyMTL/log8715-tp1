@@ -1,15 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
+
 public class InitSys : ISystem
 {
     public string Name => "InitSys";
 
-    private bool initializing = true;
+    // TODO: le bouger dans un singleton
+    // (je crois que c'est interdit d'avoir des attributs dans les systèmes)
+    private bool _initializing = true;
 
     public void UpdateSystem()
     {
-        if (initializing)
+        if (_initializing)
         {
-            initializing = false;
+            _initializing = false;
+
             foreach (var shape in ECSManager.Instance.Config.circleInstancesToSpawn)
             {
                 var entity = World.Instance.CreateEntity();
@@ -22,12 +27,17 @@ public class InitSys : ISystem
                 }
                 ECSManager.Instance.CreateShape((uint)entity.Id, shape.initialSize);
             }
+
             World.Instance.SetSingleton<ScreenBoundary>(
                 new ScreenBoundary(
                     Camera.main.ScreenToWorldPoint(
                         new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z))));
+
             // Setting the seed of the random Generator
             UnityEngine.Random.InitState(ECSManager.Instance.Config.seed);
+
+            // Setup backups
+            World.Instance.SetSingleton<Backups>(new Backups(new Queue<WorldBackup>()));
         }
     }
 }
