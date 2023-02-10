@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PositionSys : ISystem
 {
-    public string Name => "PositionSys";
+    public string Name => nameof(PositionSys);
 
     public void UpdateSystem()
     {

@@ -1,8 +1,6 @@
-using UnityEngine;
-
 public class SizeSys : ISystem
 {
-    public string Name => "SizeSys";
+    public string Name => nameof(SizeSys);
 
     public void UpdateSystem()
     {
@@ -19,8 +17,9 @@ public class SizeSys : ISystem
                 var collidedShapesSize = collidingWith.Value.CollidedShapesSize;
                 for (var i = 0; i < collidedShapes.Count; i++)
                 {
-                    var isStatic2=World.Instance.GetComponent<IsStatic>(new Entity(collidedShapes[i]));
-                    if(isStatic2.HasValue){
+                    var isStatic2 = World.Instance.GetComponent<IsStatic>(new Entity(collidedShapes[i]));
+                    if (isStatic2.HasValue)
+                    {
                         return;
                     }
                     var scale2 = collidedShapesSize[i].Scale;

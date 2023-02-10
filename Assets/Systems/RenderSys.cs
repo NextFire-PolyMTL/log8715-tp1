@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RenderSys : ISystem
 {
-    public string Name => "RenderSys";
+    public string Name => nameof(RenderSys);
 
     public void UpdateSystem()
     {

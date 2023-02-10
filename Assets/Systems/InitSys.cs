@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InitSys : ISystem
 {
-    public string Name => "InitSys";
+    public string Name => nameof(InitSys);
 
     public void UpdateSystem()
     {
@@ -35,7 +35,7 @@ public class InitSys : ISystem
             UnityEngine.Random.InitState(ECSManager.Instance.Config.seed);
 
             // Setup backups
-            World.Instance.SetSingleton<Backups>(new Backups(new Queue<WorldBackup>()));
+            World.Instance.SetSingleton<Backups>(new Backups(new Queue<Backups.WorldBackup>()));
         }
     }
 }

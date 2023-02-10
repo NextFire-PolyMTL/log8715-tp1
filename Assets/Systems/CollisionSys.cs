@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CollisionSys : ISystem
 {
-    public string Name => "CollisionSys";
+    public string Name => nameof(CollisionSys);
 
     public void UpdateSystem()
     {
@@ -13,19 +13,23 @@ public class CollisionSys : ISystem
         World.Instance.ForEach<Position>((entity, position) =>
         {
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
-            var velocity=World.Instance.GetComponent<Velocity>(entity);
+            var velocity = World.Instance.GetComponent<Velocity>(entity);
             if (isStatic.HasValue)
             {
                 return;
             }
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
-            if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x){
-                if(Mathf.Sign(position.Value.X*velocity.Value.Vx)>0){
+            if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x)
+            {
+                if (Mathf.Sign(position.Value.X * velocity.Value.Vx) > 0)
+                {
                     World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                 }
             }
-            if (Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y){
-                if(Mathf.Sign(position.Value.Y*velocity.Value.Vy)>0){
+            if (Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y)
+            {
+                if (Mathf.Sign(position.Value.Y * velocity.Value.Vy) > 0)
+                {
                     World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                 }
             }

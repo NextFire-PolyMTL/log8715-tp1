@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BacktrackSys : ISystem
 {
-    public string Name => "BacktrackSys";
+    public string Name => nameof(BacktrackSys);
 
     const float BACKTRACK_TIME = 3;
     const float BACKTRACK_COOLDOWN = 3;

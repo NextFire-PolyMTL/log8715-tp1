@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ClickSys : ISystem
 {
-    public string Name => "ClickSys";
+    public string Name => nameof(ClickSys);
 
     public void UpdateSystem()
     {
@@ -10,7 +10,7 @@ public class ClickSys : ISystem
         //Trouver mieux /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var mouseClick = (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2));
-    
+
         World.Instance.ForEach<Position>((entity, position) =>
         {
 

@@ -1,8 +1,6 @@
-using UnityEngine;
-
 public class ProtectionSys : ISystem
 {
-    public string Name => "ProtectionSys";
+    public string Name => nameof(ProtectionSys);
 
     public void UpdateSystem()
     {
