@@ -1,11 +1,11 @@
-public class SizeSys : ISystem
+public class SizeSys : IPhysicSystem
 {
     public string Name => nameof(SizeSys);
 
     public void UpdateSystem()
     {
 
-        World.Instance.ForEach<CollidingWith>((entity, collidingWith) =>
+        Utils.PhysicsForEach<CollidingWith>((entity, collidingWith) =>
         {
 
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
@@ -15,7 +15,7 @@ public class SizeSys : ISystem
                 //Debug.Log($"size:{collidingWith.Value.CollidedShapesSize[0].Radius}");
                 var collidedShapes = collidingWith.Value.CollidedShapes;
                 var collidedShapesSize = collidingWith.Value.CollidedShapesSize;
-                for (var i = 0; i < collidedShapes.Count; i++)
+                for (int i = 0; i < collidedShapes.Count; i++)
                 {
                     var isStatic2 = World.Instance.GetComponent<IsStatic>(new Entity(collidedShapes[i]));
                     if (isStatic2.HasValue)

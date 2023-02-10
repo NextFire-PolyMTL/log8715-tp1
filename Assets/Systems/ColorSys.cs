@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ColorSys : ISystem
+public class ColorSys : IPhysicSystem
 {
     public string Name => nameof(ColorSys);
 
@@ -8,7 +8,7 @@ public class ColorSys : ISystem
     {
 
 
-        World.Instance.ForEach<Position>((entity, position) =>
+        Utils.PhysicsForEach<Position>((entity, position) =>
         {
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
             //var isClicked = World.Instance.GetComponent<IsClicked>(entity);

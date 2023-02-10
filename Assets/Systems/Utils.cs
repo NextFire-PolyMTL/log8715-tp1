@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+
+public interface IPhysicSystem : ISystem { }
 
 public class Utils
 {
@@ -19,5 +22,17 @@ public class Utils
             default:
                 return component;
         }
+    }
+
+    public static void PhysicsForEach<T>(Action<Entity, T?> action) where T : struct, IComponent
+    {
+        World.Instance.ForEach<T>((entity, component) =>
+        {
+            var isIgnored = World.Instance.GetComponent<PhysicsIgnore>(entity);
+            if (!isIgnored.HasValue)
+            {
+                action(entity, component);
+            }
+        });
     }
 }

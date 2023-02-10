@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class ExplosionSys : ISystem
+public class ExplosionSys : IPhysicSystem
 {
     public string Name => nameof(ExplosionSys);
 
     public void UpdateSystem()
     {
-        World.Instance.ForEach<Size>((entity, size) =>
+        Utils.PhysicsForEach<Size>((entity, size) =>
         {
             var isClicked = World.Instance.GetComponent<IsClicked>(entity);
             if ((isClicked.HasValue && size.Value.Scale >= 2) || size.Value.Scale >= ECSManager.Instance.Config.explosionSize)

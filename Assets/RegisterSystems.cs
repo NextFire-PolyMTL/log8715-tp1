@@ -8,11 +8,13 @@ public class RegisterSystems
         var toRegister = new List<ISystem>();
 
         // Add your systems here
+
         /* Initialization */
         toRegister.Add(new InitSys());
 
-        /* Backtracking */
+        /* Before physics */
         toRegister.Add(new BacktrackSys());
+        toRegister.Add(new ClickSys());
 
         /* Physics */
         toRegister.Add(new CollisionSys());
@@ -21,8 +23,10 @@ public class RegisterSystems
         toRegister.Add(new ColorSys());
         toRegister.Add(new PositionSys());
         toRegister.Add(new ExplosionSys());
-        toRegister.Add(new ClickSys());
         toRegister.Add(new ProtectionSys());
+
+        /* After physics */
+        toRegister.Add(new LeftSideSys());
 
         /* Rendering */
         toRegister.Add(new RenderSys());

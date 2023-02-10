@@ -1,4 +1,4 @@
-public class ProtectionSys : ISystem
+public class ProtectionSys : IPhysicSystem
 {
     public string Name => nameof(ProtectionSys);
 
@@ -7,7 +7,7 @@ public class ProtectionSys : ISystem
         Config cfg = ECSManager.Instance.Config;
         World world = World.Instance;
         UnityEngine.Random.InitState(cfg.seed);
-        world.ForEach<Position>((entity, position) =>
+        Utils.PhysicsForEach<Position>((entity, position) =>
         {
             if (world.GetComponent<IsStatic>(entity).HasValue)
                 return;

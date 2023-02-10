@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PositionSys : ISystem
+public class PositionSys : IPhysicSystem
 {
     public string Name => nameof(PositionSys);
 
@@ -8,7 +8,7 @@ public class PositionSys : ISystem
     {
         var screenBoundary = World.Instance.GetSingleton<ScreenBoundary>().Value;
 
-        World.Instance.ForEach<IsColliding>((entity, isColliding) =>
+        Utils.PhysicsForEach<IsColliding>((entity, isColliding) =>
         {
             /*
             if (!isColliding.HasValue)
@@ -83,7 +83,7 @@ public class PositionSys : ISystem
                 var collidedShapesPosition = collidingWith.Value.CollidedShapesPosition;
                 var collidedShapesVelocity = collidingWith.Value.CollidedShapesVelocity;
 
-                for (var i = 0; i < collidedShapes.Count; i++)
+                for (int i = 0; i < collidedShapes.Count; i++)
                 {
 
                     var position2 = collidedShapesPosition[i]; //World.Instance.GetComponent<Position>(new Entity(collidedShape));
@@ -110,7 +110,7 @@ public class PositionSys : ISystem
 
         });
 
-        World.Instance.ForEach<Velocity>((entity, velocity) =>
+        Utils.PhysicsForEach<Velocity>((entity, velocity) =>
         {
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
             if (isStatic.HasValue)

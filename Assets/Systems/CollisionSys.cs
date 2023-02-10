@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionSys : ISystem
+public class CollisionSys : IPhysicSystem
 {
     public string Name => nameof(CollisionSys);
 
@@ -10,7 +10,7 @@ public class CollisionSys : ISystem
         var screenBoundary = World.Instance.GetSingleton<ScreenBoundary>().Value;
 
 
-        World.Instance.ForEach<Position>((entity, position) =>
+        Utils.PhysicsForEach<Position>((entity, position) =>
         {
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
             if (isStatic.HasValue)
@@ -47,7 +47,7 @@ public class CollisionSys : ISystem
             */
             //Code à discuter
 
-            World.Instance.ForEach<Position>((entity2, position2) =>
+            Utils.PhysicsForEach<Position>((entity2, position2) =>
             {
                 var scale2 = World.Instance.GetComponent<Size>(entity2);
                 var velocity2 = World.Instance.GetComponent<Velocity>(entity2);

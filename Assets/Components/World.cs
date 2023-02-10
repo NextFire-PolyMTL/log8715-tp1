@@ -23,7 +23,7 @@ public class World
         {
             if (s_instance == null)
             {
-                s_instance = new World();
+                s_instance = new();
             }
             return s_instance;
         }
@@ -32,14 +32,14 @@ public class World
     }
     #endregion
 
-    private Dictionary<Type, IComponent[]> _components = new Dictionary<Type, IComponent[]>();
-    private Dictionary<uint, uint> _idToIndex = new Dictionary<uint, uint>();
-    private Dictionary<uint, Entity> _indexToEntity = new Dictionary<uint, Entity>();
+    private Dictionary<Type, IComponent[]> _components = new();
+    private Dictionary<uint, uint> _idToIndex = new();
+    private Dictionary<uint, Entity> _indexToEntity = new();
     private uint _nextId = 0;
     private uint _nextIndex = 0;
-    private Stack<uint> _freeIndexes = new Stack<uint>();
+    private Stack<uint> _freeIndexes = new();
 
-    private Dictionary<Type, IComponent> _singletons = new Dictionary<Type, IComponent>();
+    private Dictionary<Type, IComponent> _singletons = new();
 
     private World() { }
 
@@ -96,15 +96,12 @@ public class World
 
     public void ForEach<T>(Action<Entity, T?> action) where T : struct, IComponent
     {
-        if (_components.ContainsKey(typeof(T)))
+        var componentArray = _components.GetValueOrDefault(typeof(T), null);
+        for (uint i = 0; i < _nextIndex; i++)
         {
-            var componentArray = _components[typeof(T)];
-            for (var i = 0u; i < _nextIndex; i++)
+            if (!_freeIndexes.Contains(i))
             {
-                if (!_freeIndexes.Contains(i))
-                {
-                    action(_indexToEntity[i], (T?)componentArray[i]);
-                }
+                action(_indexToEntity[i], (componentArray is null) ? null : (T?)componentArray[i]);
             }
         }
     }
@@ -128,18 +125,18 @@ public class World
         var clone = new World();
 
         // Simple value attributes
-        clone._idToIndex = new Dictionary<uint, uint>(_idToIndex);
-        clone._indexToEntity = new Dictionary<uint, Entity>(_indexToEntity);
+        clone._idToIndex = new(_idToIndex);
+        clone._indexToEntity = new(_indexToEntity);
         clone._nextId = _nextId;
         clone._nextIndex = _nextIndex;
-        clone._freeIndexes = new Stack<uint>(_freeIndexes);
+        clone._freeIndexes = new(_freeIndexes);
 
         // Components
         foreach (var kvp in _components)
         {
             var componentArray = kvp.Value;
             var cloneArray = new IComponent[POOL_SIZE];
-            for (var i = 0u; i < _nextIndex; i++)
+            for (uint i = 0; i < _nextIndex; i++)
             {
                 if (componentArray[i] is IComponent component && !_freeIndexes.Contains(i))
                 {
