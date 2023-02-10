@@ -5,15 +5,13 @@ public class InitSys : ISystem
 {
     public string Name => "InitSys";
 
-    // TODO: le bouger dans un singleton
-    // (je crois que c'est interdit d'avoir des attributs dans les systèmes)
-    private bool _initializing = true;
-
     public void UpdateSystem()
     {
-        if (_initializing)
+        var initialized = World.Instance.GetSingleton<Initialized>();
+
+        if (!initialized.HasValue)
         {
-            _initializing = false;
+            World.Instance.SetSingleton<Initialized>(new Initialized());
 
             foreach (var shape in ECSManager.Instance.Config.circleInstancesToSpawn)
             {

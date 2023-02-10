@@ -162,3 +162,15 @@ public class World
         return clone;
     }
 }
+
+public readonly struct WorldBackup
+{
+    public WorldBackup(float timestamp, World world)
+    {
+        Timestamp = timestamp;
+        World = world;
+    }
+
+    public readonly float Timestamp;
+    public readonly World World;
+}
