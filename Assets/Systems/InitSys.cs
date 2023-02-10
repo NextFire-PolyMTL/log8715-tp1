@@ -23,7 +23,7 @@ public class InitSys : ISystem
                 {
                     World.Instance.SetComponent<IsStatic>(entity, new IsStatic());
                 }
-                ECSManager.Instance.CreateShape((uint)entity.Id, shape.initialSize);
+                ECSManager.Instance.CreateShape(entity.Id, shape.initialSize);
             }
 
             World.Instance.SetSingleton<ScreenBoundary>(

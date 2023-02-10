@@ -28,8 +28,8 @@ public class PositionSys : ISystem
                 //var shadowShape_Position=new Vector2(position.Value.X, position.Value.Y);
                 //var shadowShape_Velocity=new Vector2(velocity.Value.Vx, velocity.Value.Vy);
 
-                if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x
-                && Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y)
+                if (Mathf.Abs(position.Value.X) + (scale >> 1) >= screenBoundary.Value.x
+                && Mathf.Abs(position.Value.Y) + (scale >> 1) >= screenBoundary.Value.y)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                                             new Vector2(position.Value.X, position.Value.Y),
@@ -43,7 +43,7 @@ public class PositionSys : ISystem
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
 
                 }
-                else if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x)
+                else if (Mathf.Abs(position.Value.X) + (scale >> 1) >= screenBoundary.Value.x)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
@@ -58,7 +58,7 @@ public class PositionSys : ISystem
 
                 }
 
-                else if (Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y)
+                else if (Mathf.Abs(position.Value.Y) + (scale >> 1) >= screenBoundary.Value.y)
                 {
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),

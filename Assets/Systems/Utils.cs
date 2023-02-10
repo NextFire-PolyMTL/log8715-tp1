@@ -8,7 +8,7 @@ public class Utils
         {
             // case everything that needs deep copy (reference types)
             case CollidingWith collidingWith:
-                var CollidedShapes = new List<int>(collidingWith.CollidedShapes);
+                var CollidedShapes = new List<uint>(collidingWith.CollidedShapes);
                 var CollidedShapesPosition = new List<Position>(collidingWith.CollidedShapesPosition);
                 var CollidedShapesVelocity = new List<Velocity>(collidingWith.CollidedShapesVelocity);
                 var CollidedShapesSize = new List<Size>(collidingWith.CollidedShapesSize);

@@ -13,29 +13,31 @@ public class CollisionSys : ISystem
         World.Instance.ForEach<Position>((entity, position) =>
         {
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
-            var velocity = World.Instance.GetComponent<Velocity>(entity);
             if (isStatic.HasValue)
             {
                 return;
             }
+
+            var velocity = World.Instance.GetComponent<Velocity>(entity);
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
-            if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x)
+
+            if (Mathf.Abs(position.Value.X) + (scale >> 1) >= screenBoundary.Value.x)
             {
                 if (Mathf.Sign(position.Value.X * velocity.Value.Vx) > 0)
                 {
                     World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                 }
             }
-            if (Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y)
+            if (Mathf.Abs(position.Value.Y) + (scale >> 1) >= screenBoundary.Value.y)
             {
                 if (Mathf.Sign(position.Value.Y * velocity.Value.Vy) > 0)
                 {
                     World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                 }
             }
-            /**
 
-            if (Mathf.Abs(position.Value.X) + scale / 2 >= screenBoundary.Value.x || Mathf.Abs(position.Value.Y) + scale / 2 >= screenBoundary.Value.y)
+            /**
+            if (Mathf.Abs(position.Value.X) + (scale >> 1) >= screenBoundary.Value.x || Mathf.Abs(position.Value.Y) + (scale >> 1) >= screenBoundary.Value.y)
             {
 
                 World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
@@ -51,8 +53,10 @@ public class CollisionSys : ISystem
                 var velocity2 = World.Instance.GetComponent<Velocity>(entity2);
                 if (entity2.Id != entity.Id)
                 {
-                    if (Mathf.Sqrt(Mathf.Pow((position.Value.X - position2.Value.X), 2)
-                    + Mathf.Pow((position.Value.Y - position2.Value.Y), 2)) <= (scale + scale2.Value.Scale) / 2)
+                    if (Mathf.Sqrt(
+                            Mathf.Pow((position.Value.X - position2.Value.X), 2)
+                            + Mathf.Pow((position.Value.Y - position2.Value.Y), 2))
+                        <= ((scale + scale2.Value.Scale) >> 1))
                     {
                         World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                         var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
@@ -61,7 +65,7 @@ public class CollisionSys : ISystem
                         {
                             World.Instance.SetComponent<CollidingWith>(entity,
                                 new CollidingWith(
-                                    new List<int> { entity2.Id },
+                                    new List<uint> { entity2.Id },
                                     new List<Position> { position2.Value },
                                     new List<Velocity> { velocity2.Value },
                                     new List<Size> { scale2.Value }
@@ -87,9 +91,6 @@ public class CollisionSys : ISystem
                     }
                 }
             });
-
-
         });
-
     }
 }

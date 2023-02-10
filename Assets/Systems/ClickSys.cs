@@ -16,7 +16,8 @@ public class ClickSys : ISystem
 
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
 
-            if (Mathf.Abs(mousePosition.x - position.Value.X) < scale / 2 && Mathf.Abs(mousePosition.y - position.Value.Y) < scale / 2
+            if (Mathf.Abs(mousePosition.x - position.Value.X) < (scale >> 1)
+            && Mathf.Abs(mousePosition.y - position.Value.Y) < (scale >> 1)
             && mouseClick)
             {
                 World.Instance.SetComponent<IsClicked>(entity, new IsClicked());

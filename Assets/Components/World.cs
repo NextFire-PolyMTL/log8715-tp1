@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 public readonly struct Entity
 {
-    public Entity(int id)
+    public Entity(uint id)
     {
         Id = id;
     }
 
-    public readonly int Id;
+    public readonly uint Id;
 }
 
 public class World
 {
-    const int POOL_SIZE = 1024;
+    const uint POOL_SIZE = 1024;
 
     #region Singleton
     private static World s_instance;
@@ -33,11 +33,11 @@ public class World
     #endregion
 
     private Dictionary<Type, IComponent[]> _components = new Dictionary<Type, IComponent[]>();
-    private Dictionary<int, int> _idToIndex = new Dictionary<int, int>();
-    private Dictionary<int, Entity> _indexToEntity = new Dictionary<int, Entity>();
-    private int _nextId = 0;
-    private int _nextIndex = 0;
-    private Stack<int> _freeIndexes = new Stack<int>();
+    private Dictionary<uint, uint> _idToIndex = new Dictionary<uint, uint>();
+    private Dictionary<uint, Entity> _indexToEntity = new Dictionary<uint, Entity>();
+    private uint _nextId = 0;
+    private uint _nextIndex = 0;
+    private Stack<uint> _freeIndexes = new Stack<uint>();
 
     private Dictionary<Type, IComponent> _singletons = new Dictionary<Type, IComponent>();
 
@@ -99,7 +99,7 @@ public class World
         if (_components.ContainsKey(typeof(T)))
         {
             var componentArray = _components[typeof(T)];
-            for (var i = 0; i < _nextIndex; i++)
+            for (var i = 0u; i < _nextIndex; i++)
             {
                 if (!_freeIndexes.Contains(i))
                 {
@@ -128,18 +128,18 @@ public class World
         var clone = new World();
 
         // Simple value attributes
-        clone._idToIndex = new Dictionary<int, int>(_idToIndex);
-        clone._indexToEntity = new Dictionary<int, Entity>(_indexToEntity);
+        clone._idToIndex = new Dictionary<uint, uint>(_idToIndex);
+        clone._indexToEntity = new Dictionary<uint, Entity>(_indexToEntity);
         clone._nextId = _nextId;
         clone._nextIndex = _nextIndex;
-        clone._freeIndexes = new Stack<int>(_freeIndexes);
+        clone._freeIndexes = new Stack<uint>(_freeIndexes);
 
         // Components
         foreach (var kvp in _components)
         {
             var componentArray = kvp.Value;
             var cloneArray = new IComponent[POOL_SIZE];
-            for (var i = 0; i < _nextIndex; i++)
+            for (var i = 0u; i < _nextIndex; i++)
             {
                 if (componentArray[i] is IComponent component && !_freeIndexes.Contains(i))
                 {

@@ -44,7 +44,7 @@ public class SizeSys : ISystem
                     if (scale < 1)
                     {
                         World.Instance.DeleteEntity(entity);
-                        ECSManager.Instance.DestroyShape((uint)entity.Id);
+                        ECSManager.Instance.DestroyShape(entity.Id);
                         //return;
                     }
 

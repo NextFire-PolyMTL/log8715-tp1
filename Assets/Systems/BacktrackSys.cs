@@ -41,7 +41,7 @@ public class BacktrackSys : ISystem
                 // Delete all current shapes
                 World.Instance.ForEach<Position>((entity, position) =>
                 {
-                    ECSManager.Instance.DestroyShape((uint)entity.Id);
+                    ECSManager.Instance.DestroyShape(entity.Id);
                 });
 
                 World.Instance = backup.World;
@@ -51,7 +51,7 @@ public class BacktrackSys : ISystem
                 {
                     // We don't care about their size (nor their position or color)
                     // RenderSys will take care of that in the next frame
-                    ECSManager.Instance.CreateShape((uint)entity.Id, 0);
+                    ECSManager.Instance.CreateShape(entity.Id, 0);
                 });
 
                 World.Instance.SetSingleton<LastBacktrack>(new LastBacktrack(currTime));
