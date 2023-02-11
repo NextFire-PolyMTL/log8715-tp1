@@ -38,4 +38,10 @@ public class Utils
             }
         });
     }
+
+    public static void AddCommandToBuffer(Action command)
+    {
+        var commandBuffer = World.Instance.GetSingleton<CommandBuffer>();
+        commandBuffer.Value.Commands.Enqueue(command);
+    }
 }
