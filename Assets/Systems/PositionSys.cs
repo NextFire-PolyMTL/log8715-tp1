@@ -82,13 +82,15 @@ public class PositionSys : IPhysicSystem
                 var collidedShapes = collidingWith.Value.CollidedShapes;
                 var collidedShapesPosition = collidingWith.Value.CollidedShapesPosition;
                 var collidedShapesVelocity = collidingWith.Value.CollidedShapesVelocity;
+                var collidedShapesSize = collidingWith.Value.CollidedShapesSize;
 
                 for (int i = 0; i < collidedShapes.Count; i++)
                 {
 
                     var position2 = collidedShapesPosition[i]; //World.Instance.GetComponent<Position>(new Entity(collidedShape));
                     var velocity2 = collidedShapesVelocity[i];//World.Instance.GetComponent<Velocity>(new Entity(collidedShape));
-                    var scale2 = World.Instance.GetComponent<Size>(new Entity(collidedShapes[i])).Value.Scale;
+                    //var scale2 = World.Instance.GetComponent<Size>(new Entity(collidedShapes[i])).Value.Scale;
+                    var scale2 = collidedShapesSize[i].Scale;
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
