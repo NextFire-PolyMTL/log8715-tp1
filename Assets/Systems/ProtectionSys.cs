@@ -27,9 +27,10 @@ public class ProtectionSys : IPhysicSystem
 
         Utils.PhysicsForEach<Cooldown>((entity, cooldown) =>
         {
-            // var cooldown = world.GetComponent<Cooldown>(entity);
             if (!cooldown.HasValue)
+            {
                 return;
+            }
             float newCD = cooldown.Value.Time - UnityEngine.Time.deltaTime;
             bool isProtected = world.GetComponent<IsProtected>(entity).HasValue;
 

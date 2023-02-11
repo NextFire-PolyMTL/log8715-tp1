@@ -40,17 +40,14 @@ public class SizeSys : IPhysicSystem
 
                     if (scale2 < scale)
                     {
-                        // Somehow this causes obscure bugs
-                        // TODO : Discuss & fix
-
-                        // if (isProtected2)
-                        // {
-                        //     --scale;
-                        // }
-                        // else
-                        // {
-                        ++scale;
-                        // }
+                        if (isProtected2)
+                        {
+                            --scale;
+                        }
+                        else
+                        {
+                            ++scale;
+                        }
                         World.Instance.SetComponent<Size>(entity, new Size(scale));
                         //Changer CollidingWith pour éviter d'instencier des Entité à chaque fois
                         //World.Instance.SetComponent<Size>(new Entity(collidedShapes[i]), new Size(size2 - 1));
