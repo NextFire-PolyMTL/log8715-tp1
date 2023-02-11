@@ -10,11 +10,13 @@ public class ProtectionSys : IPhysicSystem
         {
             // If the entity is static it can't be protected
             // If the entity is too big
-            // If the entity is already protected
+            // If the entity has a CD (by being protected or waiting)
             if (world.GetComponent<IsStatic>(entity).HasValue ||
                 world.GetComponent<Size>(entity).Value.Scale > cfg.protectionSize ||
-                world.GetComponent<IsProtected>(entity).HasValue)
+                world.GetComponent<Cooldown>(entity).HasValue)
+            {
                 return;
+            }
             float probaProtection = cfg.protectionProbability;
             if (UnityEngine.Random.value < probaProtection)
             {
@@ -22,16 +24,12 @@ public class ProtectionSys : IPhysicSystem
                 world.SetComponent<Cooldown>(entity, new Cooldown(cfg.protectionDuration));
             }
         });
-        // Ugh, doesn't work with a loop over each Component for whatever reason.
-        // TODO fix
-        Utils.PhysicsForEach<Position>((entity, Position) =>
+
+        Utils.PhysicsForEach<Cooldown>((entity, cooldown) =>
         {
-            // Then I test if it has a CD compo here, very inefficient
-            if (!world.GetComponent<Cooldown>(entity).HasValue)
-            {
+            // var cooldown = world.GetComponent<Cooldown>(entity);
+            if (!cooldown.HasValue)
                 return;
-            }
-            var cooldown = world.GetComponent<Cooldown>(entity);
             float newCD = cooldown.Value.Time - UnityEngine.Time.deltaTime;
             bool isProtected = world.GetComponent<IsProtected>(entity).HasValue;
 
