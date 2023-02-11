@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +37,9 @@ public class InitSys : ISystem
 
             // Setup backups
             World.Instance.SetSingleton<Backups>(new Backups(new Queue<Backups.WorldBackup>()));
+
+            // Setup command buffer
+            World.Instance.SetSingleton<CommandBuffer>(new CommandBuffer(new Queue<Action>()));
         }
     }
 }

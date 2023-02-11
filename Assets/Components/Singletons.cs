@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,4 +44,14 @@ public readonly struct LastBacktrack : IComponent
     }
 
     public readonly float Timestamp;
+}
+
+public readonly struct CommandBuffer : IComponent
+{
+    public CommandBuffer(Queue<Action> commands)
+    {
+        Commands = commands;
+    }
+
+    public readonly Queue<Action> Commands;
 }
