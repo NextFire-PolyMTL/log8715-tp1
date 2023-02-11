@@ -27,7 +27,6 @@ public class RegisterSystems
             new ExplosionSys(),
             new ProtectionSys()
         };
-        
         // First pass on everything
         toRegister.Add(new PhysicsIgnoreResetSys());
         toRegister.AddRange(physicSystems);
@@ -39,6 +38,7 @@ public class RegisterSystems
 
         /* Rendering */
         toRegister.Add(new RenderSys());
+        toRegister.Add(new CommandBufferSys());
 
         return toRegister;
     }
