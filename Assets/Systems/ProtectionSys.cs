@@ -28,7 +28,9 @@ public class ProtectionSys : IPhysicSystem
         {
             // Then I test if it has a CD compo here, very inefficient
             if (!world.GetComponent<Cooldown>(entity).HasValue)
+            {
                 return;
+            }
             var cooldown = world.GetComponent<Cooldown>(entity);
             float newCD = cooldown.Value.Time - UnityEngine.Time.deltaTime;
             bool isProtected = world.GetComponent<IsProtected>(entity).HasValue;
@@ -46,7 +48,9 @@ public class ProtectionSys : IPhysicSystem
                 }
             }
             else
+            {
                 world.SetComponent<Cooldown>(entity, new Cooldown(newCD));
+            }
         });
     }
 }
