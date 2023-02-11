@@ -17,16 +17,24 @@ public class RegisterSystems
         toRegister.Add(new ClickSys());
 
         /* Physics */
-        toRegister.Add(new CollisionSys());
-        // SizeSys doit être exécuté avant PositionSys (car sinon CollidingWith des entités seront supprimé)
-        toRegister.Add(new SizeSys());
-        toRegister.Add(new ColorSys());
-        toRegister.Add(new PositionSys());
-        toRegister.Add(new ExplosionSys());
-        toRegister.Add(new ProtectionSys());
-
-        /* After physics */
-        toRegister.Add(new LeftSideSys());
+        var physicSystems = new IPhysicSystem[] {
+            new CollisionSys(),
+            // SizeSys doit être exécuté avant PositionSys
+            // (car sinon CollidingWith des entités seront supprimé)
+            new SizeSys(),
+            new ColorSys(),
+            new PositionSys(),
+            new ExplosionSys(),
+            new ProtectionSys()
+        };
+        // First pass on everything
+        toRegister.Add(new PhysicsIgnoreResetSys());
+        toRegister.AddRange(physicSystems);
+        // Three more passes ignoring the right side
+        toRegister.Add(new PhysicsIgnoreSys());
+        toRegister.AddRange(physicSystems);
+        toRegister.AddRange(physicSystems);
+        toRegister.AddRange(physicSystems);
 
         /* Rendering */
         toRegister.Add(new RenderSys());
