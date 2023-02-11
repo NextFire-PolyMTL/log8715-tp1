@@ -6,7 +6,7 @@ Preset:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test_config_2
+  m_Name: BaseConfig
   m_TargetType:
     m_NativeTypeID: 114
     m_ManagedTypePPtr: {fileID: 11500000, guid: 44f6298b63162af49b161af8f69d4513,
@@ -35,7 +35,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: protectionSize
-    value: 5
+    value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: protectionProbability
@@ -75,7 +75,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: circleInstancesToSpawn.Array.data[1].initialSize
-    value: 8
+    value: 4
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: circleInstancesToSpawn.Array.data[1].initialPosition.x
@@ -115,7 +115,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: systemsEnabled.keys.Array.size
-    value: 13
+    value: 8
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: systemsEnabled.keys.Array.data[0]
@@ -150,28 +150,8 @@ Preset:
     value: ColorSys
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: systemsEnabled.keys.Array.data[8]
-    value: BacktrackSys
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.keys.Array.data[9]
-    value: ProtectionSys
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.keys.Array.data[10]
-    value: LeftSideSys
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.keys.Array.data[11]
-    value: PhysicsIgnoreResetSys
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.keys.Array.data[12]
-    value: PhysicsIgnoreSys
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
     propertyPath: systemsEnabled.values.Array.size
-    value: 13
+    value: 8
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: systemsEnabled.values.Array.data[0]
@@ -203,26 +183,6 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: systemsEnabled.values.Array.data[7]
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.values.Array.data[8]
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.values.Array.data[9]
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.values.Array.data[10]
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.values.Array.data[11]
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: systemsEnabled.values.Array.data[12]
     value: 1
     objectReference: {fileID: 0}
   m_ExcludedProperties: []

@@ -6,7 +6,7 @@ Preset:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test_Config_1
+  m_Name: ConfigTest2
   m_TargetType:
     m_NativeTypeID: 114
     m_ManagedTypePPtr: {fileID: 11500000, guid: 44f6298b63162af49b161af8f69d4513,
@@ -51,7 +51,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: circleInstancesToSpawn.Array.size
-    value: 5
+    value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: circleInstancesToSpawn.Array.data[0].initialSize
@@ -112,46 +112,6 @@ Preset:
   - target: {fileID: 0}
     propertyPath: circleInstancesToSpawn.Array.data[2].initialVelocity.y
     value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[3].initialSize
-    value: 7
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[3].initialPosition.x
-    value: -4
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[3].initialPosition.y
-    value: 5
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[3].initialVelocity.x
-    value: 0.25
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[3].initialVelocity.y
-    value: 0.34
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[4].initialSize
-    value: 4
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[4].initialPosition.x
-    value: 6
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[4].initialPosition.y
-    value: 3
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[4].initialVelocity.x
-    value: 0.25
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: circleInstancesToSpawn.Array.data[4].initialVelocity.y
-    value: 0.34
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: systemsEnabled.keys.Array.size
