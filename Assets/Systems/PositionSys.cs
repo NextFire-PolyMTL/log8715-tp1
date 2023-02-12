@@ -73,7 +73,10 @@ public class PositionSys : IPhysicSystem
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
                 }
 
-                World.Instance.RemoveComponent<IsColliding>(entity);
+                Utils.AddCommandToBuffer(() =>
+                {
+                    World.Instance.RemoveComponent<IsColliding>(entity);
+                });
             }
             //code ci-dessous à discuter
 
@@ -100,7 +103,7 @@ public class PositionSys : IPhysicSystem
                         new Vector2(velocity2.Vx, velocity2.Vy),
                         scale2
                     );
-                    
+
                     World.Instance.SetComponent<Position>(entity, new Position(newPosVit.position1[0], newPosVit.position1[1]));
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
 

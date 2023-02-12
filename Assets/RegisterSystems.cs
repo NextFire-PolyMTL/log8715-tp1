@@ -19,9 +19,6 @@ public class RegisterSystems
         /* Physics */
         var physicSystems = new ISystem[] {
             new CollisionSys(),
-            // SizeSys doit être exécuté avant PositionSys
-            // (car sinon CollidingWith des entités seront supprimé)
-            //new SizeSys(),
             new ColorSys(),
             new PositionSys(),
             new SizeSys(),

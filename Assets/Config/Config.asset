@@ -34,6 +34,12 @@ MonoBehaviour:
   - initialSize: 8
     initialPosition: {x: -7, y: 5}
     initialVelocity: {x: 0, y: 1}
+  - initialSize: 8
+    initialPosition: {x: 9, y: 5}
+    initialVelocity: {x: 1, y: 0}
+  - initialSize: 7
+    initialPosition: {x: 1, y: 1}
+    initialVelocity: {x: -1, y: 0}
   systemsEnabled:
     keys:
     - InitSys

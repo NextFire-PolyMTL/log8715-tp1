@@ -38,10 +38,10 @@ public class ExplosionSys : IPhysicSystem
 
 
                 Utils.AddCommandToBuffer(()=>{
-                            World.Instance.DeleteEntity(entity);
-                            ECSManager.Instance.DestroyShape(entity.Id);
+                    World.Instance.DeleteEntity(entity);
+                    ECSManager.Instance.DestroyShape(entity.Id);
                 });
-                
+
                 if (isClicked.HasValue)
                 {
                     World.Instance.SetComponent<BornOfClick>(newEntity, new BornOfClick());
