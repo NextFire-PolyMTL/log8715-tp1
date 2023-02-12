@@ -17,15 +17,17 @@ public class RegisterSystems
         toRegister.Add(new ClickSys());
 
         /* Physics */
-        var physicSystems = new IPhysicSystem[] {
+        var physicSystems = new ISystem[] {
             new CollisionSys(),
             // SizeSys doit être exécuté avant PositionSys
             // (car sinon CollidingWith des entités seront supprimé)
-            new SizeSys(),
+            //new SizeSys(),
             new ColorSys(),
             new PositionSys(),
+            new SizeSys(),
             new ExplosionSys(),
-            new ProtectionSys()
+            new ProtectionSys(),
+            new CommandBufferSys()
         };
         // First pass on everything
         toRegister.Add(new PhysicsIgnoreResetSys());

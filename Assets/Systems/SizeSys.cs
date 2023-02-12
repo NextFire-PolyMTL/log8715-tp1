@@ -55,8 +55,12 @@ public class SizeSys : IPhysicSystem
 
                     if (scale < 1)
                     {
-                        World.Instance.DeleteEntity(entity);
-                        ECSManager.Instance.DestroyShape(entity.Id);
+                        //World.Instance.DeleteEntity(entity);
+                        //ECSManager.Instance.DestroyShape(entity.Id);
+                        Utils.AddCommandToBuffer(()=>{
+                            World.Instance.DeleteEntity(entity);
+                            ECSManager.Instance.DestroyShape(entity.Id);
+                        });
                         //return;
                     }
 

@@ -51,13 +51,30 @@ public class CollisionSys : IPhysicSystem
             {
                 var scale2 = World.Instance.GetComponent<Size>(entity2);
                 var velocity2 = World.Instance.GetComponent<Velocity>(entity2);
+                // Get distances between the balls components
+                //var distanceVector = position2 - position;
+
+                // Calculate magnitude of the vector separating the balls
+                //var distanceMagnitude = distanceVector.magnitude;
+
                 if (entity2.Id != entity.Id)
                 {
                     if (Mathf.Sqrt(
                             Mathf.Pow((position.Value.X - position2.Value.X), 2)
                             + Mathf.Pow((position.Value.Y - position2.Value.Y), 2))
-                        <= ((scale + scale2.Value.Scale) >> 1))
+                        < (((scale + scale2.Value.Scale)>>1)))
                     {
+                        
+                        var newPosVit = CollisionUtility.CalculateCollision(
+                        new Vector2(position.Value.X, position.Value.Y),
+                        new Vector2(velocity.Value.Vx, velocity.Value.Vy),
+                        scale,
+                        new Vector2(position.Value.X, position.Value.Y),
+                        new Vector2(-velocity.Value.Vx, velocity.Value.Vy),
+                        scale2.Value.Scale
+                        );
+
+
                         World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                         var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
 

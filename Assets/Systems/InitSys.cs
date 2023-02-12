@@ -40,6 +40,9 @@ public class InitSys : ISystem
 
             // Setup command buffer
             World.Instance.SetSingleton<CommandBuffer>(new CommandBuffer(new Queue<Action>()));
+
+            //Setup click cooldown
+            World.Instance.SetSingleton<Cooldown>(new Cooldown(0));
         }
     }
 }

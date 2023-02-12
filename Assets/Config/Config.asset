@@ -19,15 +19,21 @@ MonoBehaviour:
   protectionDuration: 5
   protectionCooldown: 15
   circleInstancesToSpawn:
-  - initialSize: 4
+  - initialSize: 2
     initialPosition: {x: 4, y: 1}
     initialVelocity: {x: 1, y: -0.25}
-  - initialSize: 4
+  - initialSize: 8
     initialPosition: {x: -5, y: -5}
     initialVelocity: {x: -0.25, y: 0.25}
   - initialSize: 1
     initialPosition: {x: 5, y: 5}
     initialVelocity: {x: 0, y: 0}
+  - initialSize: 3
+    initialPosition: {x: 9, y: 5}
+    initialVelocity: {x: 1, y: 0}
+  - initialSize: 8
+    initialPosition: {x: -7, y: 5}
+    initialVelocity: {x: 0, y: 1}
   systemsEnabled:
     keys:
     - InitSys
@@ -38,4 +44,9 @@ MonoBehaviour:
     - ClickSys
     - SizeSys
     - ColorSys
-    values: 0101010101010101
+    - BacktrackSys
+    - PhysicsIgnoreResetSys
+    - ProtectionSys
+    - PhysicsIgnoreSys
+    - CommandBufferSys
+    values: 01010101010101010101010101

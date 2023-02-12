@@ -36,8 +36,12 @@ public class ExplosionSys : IPhysicSystem
                 World.Instance.SetComponent<Velocity>(newEntity2, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
                 ECSManager.Instance.CreateShape(newEntity2.Id, size.Value.Scale >> 1);
 
-                World.Instance.DeleteEntity(entity);
-                ECSManager.Instance.DestroyShape(entity.Id);
+
+                Utils.AddCommandToBuffer(()=>{
+                            World.Instance.DeleteEntity(entity);
+                            ECSManager.Instance.DestroyShape(entity.Id);
+                });
+                
                 if (isClicked.HasValue)
                 {
                     World.Instance.SetComponent<BornOfClick>(newEntity, new BornOfClick());
