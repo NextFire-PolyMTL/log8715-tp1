@@ -14,6 +14,16 @@ public readonly struct ScreenBoundary : IComponent
     public readonly Vector3 Value;
 }
 
+public readonly struct ClickCooldown : IComponent
+{
+    public ClickCooldown(float value)
+    {
+        this.Time = value;
+    }
+
+    public readonly float Time;
+}
+
 public readonly struct Backups : IComponent
 {
     public readonly struct WorldBackup

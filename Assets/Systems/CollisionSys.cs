@@ -7,20 +7,27 @@ public class CollisionSys : IPhysicSystem
 
     public void UpdateSystem()
     {
+        //We get the screen boundaries
         var screenBoundary = World.Instance.GetSingleton<ScreenBoundary>().Value;
 
 
         Utils.PhysicsForEach<Position>((entity, position) =>
         {
+            /*If the object is static, there is no need for collision detection on it
+            (But of course, for the other non-static object that collid a static object
+            we take into account the collision)*/
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
             if (isStatic.HasValue)
             {
                 return;
             }
 
+            //We get the velocity of the object
             var velocity = World.Instance.GetComponent<Velocity>(entity);
+            //We get the scale of the object
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
 
+            //If the object is outside the screen, we set a IsColliding tag:
             if (Mathf.Abs(position.Value.X) + (scale >> 1) >= screenBoundary.Value.x)
             {
                 if (Mathf.Sign(position.Value.X * velocity.Value.Vx) > 0)
@@ -36,34 +43,21 @@ public class CollisionSys : IPhysicSystem
                 }
             }
 
-            /**
-            if (Mathf.Abs(position.Value.X) + (scale >> 1) >= screenBoundary.Value.x || Mathf.Abs(position.Value.Y) + (scale >> 1) >= screenBoundary.Value.y)
-            {
-
-                World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
-                Debug.Log("screen collision");
-
-            }
-            */
-            //Code à discuter
-
             Utils.PhysicsForEach<Position>((entity2, position2) =>
             {
                 var scale2 = World.Instance.GetComponent<Size>(entity2);
                 var velocity2 = World.Instance.GetComponent<Velocity>(entity2);
-                // Get distances between the balls components
-                //var distanceVector = position2 - position;
-
-                // Calculate magnitude of the vector separating the balls
-                //var distanceMagnitude = distanceVector.magnitude;
 
                 if (entity2.Id != entity.Id)
                 {
+                    //If entity2 is colliding with entity
                     if (Mathf.Sqrt(
                             Mathf.Pow((position.Value.X - position2.Value.X), 2)
                             + Mathf.Pow((position.Value.Y - position2.Value.Y), 2))
                         < (((scale + scale2.Value.Scale) >> 1)))
                     {
+                        /*We save the information related to the shape which collids with entity into
+                        */
 
                         var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
@@ -74,10 +68,14 @@ public class CollisionSys : IPhysicSystem
                         scale2.Value.Scale
                         );
 
-
+                        /*We save the information related to the shape which collides with entity into
+                        a CollidingWith component (and we set a tag IsColliding too)
+                        */
                         World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                         var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
 
+                        /*If the list of the CollidingWith component have not been initialized before,
+                        we initialize it with the configuration of the colliding object*/
                         if (!collidingWith.HasValue)
                         {
                             World.Instance.SetComponent<CollidingWith>(entity,
@@ -88,11 +86,9 @@ public class CollisionSys : IPhysicSystem
                                     new List<Size> { scale2.Value }
                                 )
                             );
-                            //Debug.Log("coll");
                         }
                         else
                         {
-                            //c moche à changer /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
                             var collidedShapes = collidingWith.Value.CollidedShapes;
                             collidedShapes.Add(entity2.Id);
 

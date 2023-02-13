@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 public readonly struct CollidingWith : IComponent
 {
+    /*
+    The follow component contains data about shapes which collide with the entity related to the component
+    */
     public CollidingWith(
         List<uint> collidedShapes,
         List<Position> collidedShapesPosition,
@@ -14,8 +17,15 @@ public readonly struct CollidingWith : IComponent
         CollidedShapesSize = collidedShapesSize;
     }
 
+    //List of id of the objects which collide with the entity
     public readonly List<uint> CollidedShapes;
+
+    //List of position of the objects which collide with the entity
     public readonly List<Position> CollidedShapesPosition;
+
+    //List of velocity of the objects which collide with the entity
     public readonly List<Velocity> CollidedShapesVelocity;
+
+    //List of size of the objects which collide the with entity
     public readonly List<Size> CollidedShapesSize;
 }

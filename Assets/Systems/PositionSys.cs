@@ -8,29 +8,32 @@ public class PositionSys : IPhysicSystem
     {
         var screenBoundary = World.Instance.GetSingleton<ScreenBoundary>().Value;
 
+        //We first set the position and the velocity resulting from collisions
         Utils.PhysicsForEach<IsColliding>((entity, isColliding) =>
         {
-            /*
+
             if (!isColliding.HasValue)
             {
                 return;
             }
-            */
+
 
             var position = World.Instance.GetComponent<Position>(entity);
             var velocity = World.Instance.GetComponent<Velocity>(entity);
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
             var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
 
+            /*If the entity is related to a isColliding tag but have not collidingWith component associated,
+            it means that the corresponding object has collide the screen boundary*/
             if (isColliding.HasValue && !collidingWith.HasValue)
 
             {
-                //var shadowShape_Position=new Vector2(position.Value.X, position.Value.Y);
-                //var shadowShape_Velocity=new Vector2(velocity.Value.Vx, velocity.Value.Vy);
-
+                //If the object is outside the X an Y screen boundaries
                 if (Mathf.Abs(position.Value.X) + (scale >> 1) >= screenBoundary.Value.x
                 && Mathf.Abs(position.Value.Y) + (scale >> 1) >= screenBoundary.Value.y)
                 {
+                    /*To simulate the collision with the screen, we consider the result of a collision
+                    bewteen the object and another shadow object with the same configuration but having an opposite speed*/
                     var newPosVit = CollisionUtility.CalculateCollision(
                                             new Vector2(position.Value.X, position.Value.Y),
                                             new Vector2(velocity.Value.Vx, velocity.Value.Vy),
@@ -43,8 +46,13 @@ public class PositionSys : IPhysicSystem
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
 
                 }
+
+                //If the object is colliding with the X boundary
                 else if (Mathf.Abs(position.Value.X) + (scale >> 1) >= screenBoundary.Value.x)
                 {
+                    /*To simulate the collision with the x screenboundary, we consider the result of a collision
+                    bewteen the object and another shadow object with the same configuration but having an opposite speed
+                    regarding the x-axis*/
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
@@ -53,14 +61,17 @@ public class PositionSys : IPhysicSystem
                         new Vector2(-velocity.Value.Vx, velocity.Value.Vy),
                         scale
                     );
-
                     World.Instance.SetComponent<Position>(entity, new Position(newPosVit.position1[0], newPosVit.position1[1]));
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
 
                 }
 
+                //If the object is colliding the Y boundary
                 else if (Mathf.Abs(position.Value.Y) + (scale >> 1) >= screenBoundary.Value.y)
                 {
+                    /*To simulate the collision with the y screenboundary, we consider the result of a collision
+                    bewteen the object and another shadow object with the same configuration but having an opposite speed
+                    regarding the y-axis*/
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
@@ -73,13 +84,15 @@ public class PositionSys : IPhysicSystem
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
                 }
 
+                //We delete the entity after the execution of other systems in another system which execute the singleton CommandBuffer
                 Utils.AddCommandToBuffer(() =>
                 {
                     World.Instance.RemoveComponent<IsColliding>(entity);
                 });
             }
-            //code ci-dessous à discuter
 
+            /*If the object is colliding with other objects, we update its position, velocity and size
+            with the result of the collisions*/
             if (isColliding.HasValue && collidingWith.HasValue)
             {
 
@@ -91,10 +104,11 @@ public class PositionSys : IPhysicSystem
                 for (int i = 0; i < collidedShapes.Count; i++)
                 {
 
-                    var position2 = collidedShapesPosition[i]; //World.Instance.GetComponent<Position>(new Entity(collidedShape));
-                    var velocity2 = collidedShapesVelocity[i];//World.Instance.GetComponent<Velocity>(new Entity(collidedShape));
-                    //var scale2 = World.Instance.GetComponent<Size>(new Entity(collidedShapes[i])).Value.Scale;
+                    var position2 = collidedShapesPosition[i];
+                    var velocity2 = collidedShapesVelocity[i];
                     var scale2 = collidedShapesSize[i].Scale;
+
+                    //We simulate the collision between the two entities and get the result
                     var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
@@ -103,23 +117,25 @@ public class PositionSys : IPhysicSystem
                         new Vector2(velocity2.Vx, velocity2.Vy),
                         scale2
                     );
-
                     World.Instance.SetComponent<Position>(entity, new Position(newPosVit.position1[0], newPosVit.position1[1]));
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity1[0], newPosVit.velocity1[1]));
 
                 }
+
+                /*We remove the components related to the collisions after the execution of other systems in another system
+                which executes the singleton CommandBuffer*/
                 Utils.AddCommandToBuffer(() =>
                 {
                     World.Instance.RemoveComponent<IsColliding>(entity);
                     World.Instance.RemoveComponent<CollidingWith>(entity);
                 });
-                //Debug.Log("erase");
 
             }
 
 
         });
 
+        //We update the position of all entities (except the one which has a IsStatic tag among their components)
         Utils.PhysicsForEach<Velocity>((entity, velocity) =>
         {
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
