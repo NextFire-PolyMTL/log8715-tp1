@@ -37,7 +37,8 @@ public class ExplosionSys : IPhysicSystem
                 ECSManager.Instance.CreateShape(newEntity2.Id, size.Value.Scale >> 1);
 
 
-                Utils.AddCommandToBuffer(()=>{
+                Utils.AddCommandToBuffer(() =>
+                {
                     World.Instance.DeleteEntity(entity);
                     ECSManager.Instance.DestroyShape(entity.Id);
                 });

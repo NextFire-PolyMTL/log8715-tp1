@@ -57,9 +57,10 @@ public class SizeSys : IPhysicSystem
                     {
                         //World.Instance.DeleteEntity(entity);
                         //ECSManager.Instance.DestroyShape(entity.Id);
-                        Utils.AddCommandToBuffer(()=>{
-                            ECSManager.Instance.DestroyShape(entity.Id);
+                        Utils.AddCommandToBuffer(() =>
+                        {
                             World.Instance.DeleteEntity(entity);
+                            ECSManager.Instance.DestroyShape(entity.Id);
                         });
                         //return;
                     }

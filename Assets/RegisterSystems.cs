@@ -17,27 +17,33 @@ public class RegisterSystems
         toRegister.Add(new ClickSys());
 
         /* Physics */
-        var physicSystems = new ISystem[] {
+        var physicSystems = new IPhysicSystem[] {
             new CollisionSys(),
             new ColorSys(),
             new PositionSys(),
             new SizeSys(),
             new ExplosionSys(),
             new ProtectionSys(),
-            new CommandBufferSys()
         };
-        // First pass on everything
+        var cmdBufferSys = new CommandBufferSys();
+        // 1st pass on everything
         toRegister.Add(new PhysicsIgnoreResetSys());
         toRegister.AddRange(physicSystems);
-        // Three more passes ignoring the right side
+        toRegister.Add(cmdBufferSys);
+        // 3 more passes ignoring the right side
         toRegister.Add(new PhysicsIgnoreSys());
+        // 2nd pass
         toRegister.AddRange(physicSystems);
+        toRegister.Add(cmdBufferSys);
+        // 3rd pass
         toRegister.AddRange(physicSystems);
+        toRegister.Add(cmdBufferSys);
+        // 4th pass
         toRegister.AddRange(physicSystems);
+        toRegister.Add(cmdBufferSys);
 
         /* Rendering */
         toRegister.Add(new RenderSys());
-        toRegister.Add(new CommandBufferSys());
 
         return toRegister;
     }
