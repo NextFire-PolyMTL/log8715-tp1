@@ -11,7 +11,7 @@ public class ClickSys : ISystem
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var mouseClick = (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2));
         var cooldown = World.Instance.GetSingleton<Cooldown>().Value.Time;
-        if (cooldown - UnityEngine.Time.deltaTime<=0)
+        if (cooldown - UnityEngine.Time.deltaTime <= 0)
         {
 
             World.Instance.ForEach<Position>((entity, position) =>
@@ -28,7 +28,9 @@ public class ClickSys : ISystem
                     World.Instance.SetSingleton<Cooldown>(new Cooldown(0.5f));
                 }
             });
-        } else{
+        }
+        else
+        {
             World.Instance.SetSingleton<Cooldown>(new Cooldown(cooldown - UnityEngine.Time.deltaTime));
         }
 

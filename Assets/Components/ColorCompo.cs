@@ -8,5 +8,4 @@ public readonly struct ColorCompo : IComponent
     }
 
     public readonly Color ShapeColor;
-
 }

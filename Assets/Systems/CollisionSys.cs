@@ -62,9 +62,9 @@ public class CollisionSys : IPhysicSystem
                     if (Mathf.Sqrt(
                             Mathf.Pow((position.Value.X - position2.Value.X), 2)
                             + Mathf.Pow((position.Value.Y - position2.Value.Y), 2))
-                        < (((scale + scale2.Value.Scale)>>1)))
+                        < (((scale + scale2.Value.Scale) >> 1)))
                     {
-                        
+
                         var newPosVit = CollisionUtility.CalculateCollision(
                         new Vector2(position.Value.X, position.Value.Y),
                         new Vector2(velocity.Value.Vx, velocity.Value.Vy),
