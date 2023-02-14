@@ -4,51 +4,60 @@ public class ProtectionSys : IPhysicSystem
 
     public void UpdateSystem()
     {
+        // Config object to lighten the code
         Config cfg = ECSManager.Instance.Config;
-        World world = World.Instance;
+        // Loop to setup protection
         Utils.PhysicsForEach<Position>((entity, position) =>
         {
-            // If the entity is static it can't be protected
-            // If the entity is too big
-            // If the entity has a CD (by being protected or waiting)
-            if (world.GetComponent<IsStatic>(entity).HasValue ||
-                world.GetComponent<Size>(entity).Value.Scale > cfg.protectionSize ||
-                world.GetComponent<Cooldown>(entity).HasValue)
+            /* Skips the whole process in three cases
+            - The entity is static thus can't be protected
+            - The entity is too big
+            - The entity is on cooldown (already protected or has been recently)*/
+            if (World.Instance.GetComponent<IsStatic>(entity).HasValue ||
+                World.Instance.GetComponent<Size>(entity).Value.Scale > cfg.protectionSize ||
+                World.Instance.GetComponent<Cooldown>(entity).HasValue)
             {
                 return;
             }
+            // Gets a random value from the generator initialized in InitSys
             float probaProtection = cfg.protectionProbability;
             if (UnityEngine.Random.value < probaProtection)
             {
-                world.SetComponent<IsProtected>(entity, new IsProtected());
-                world.SetComponent<Cooldown>(entity, new Cooldown(cfg.protectionDuration));
+                World.Instance.SetComponent<IsProtected>(entity, new IsProtected());
+                World.Instance.SetComponent<Cooldown>(entity, new Cooldown(cfg.protectionDuration));
             }
         });
 
+        // Loop to manage Cooldown
         Utils.PhysicsForEach<Cooldown>((entity, cooldown) =>
         {
+            // If no cooldown (null pointer) skip execution
             if (!cooldown.HasValue)
             {
                 return;
             }
             float newCD = cooldown.Value.Time - UnityEngine.Time.deltaTime;
-            bool isProtected = world.GetComponent<IsProtected>(entity).HasValue;
+            bool isProtected = World.Instance.GetComponent<IsProtected>(entity).HasValue;
 
+            // Cooldown ended case
             if (newCD <= 0)
             {
+                // If the item is protected we put a new cooldown and remove the protection status
                 if (isProtected)
                 {
-                    world.RemoveComponent<IsProtected>(entity);
-                    world.SetComponent<Cooldown>(entity, new Cooldown(cfg.protectionCooldown));
+                    World.Instance.RemoveComponent<IsProtected>(entity);
+                    World.Instance.SetComponent<Cooldown>(entity, new Cooldown(cfg.protectionCooldown));
                 }
+                // If it's not protected, means it can be again, so remove the cooldown
                 else
                 {
-                    world.RemoveComponent<Cooldown>(entity);
+                    World.Instance.RemoveComponent<Cooldown>(entity);
                 }
             }
+            // If the cooldown isn't finished, just decrement it
             else
             {
-                world.SetComponent<Cooldown>(entity, new Cooldown(newCD));
+                World.Instance.SetComponent<Cooldown>(entity, new Cooldown(newCD));
             }
         });
     }
