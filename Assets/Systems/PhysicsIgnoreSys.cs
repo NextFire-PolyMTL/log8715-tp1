@@ -6,6 +6,7 @@ public class PhysicsIgnoreSys : ISystem
     {
         World.Instance.ForEach<Position>((entity, position) =>
         {
+            // Ignore physics for shapes that are on the right side of the screen
             if (position.Value.X > 0)
             {
                 World.Instance.SetComponent<PhysicsIgnore>(entity, new PhysicsIgnore());

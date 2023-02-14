@@ -26,7 +26,7 @@ public class SizeSys : IPhysicSystem
                     //If an entity collides with a static one, its size doesn't change
                     if (isStatic2.HasValue)
                     {
-                        return;
+                        break;
                     }
 
                     var scale2 = collidedShapesSize[i].Scale;
@@ -34,24 +34,15 @@ public class SizeSys : IPhysicSystem
                     //If an entity collides with another which has a bigger size and is protected, we reduce the size of the entity
                     if (scale2 > scale && !isProtected2)
                     {
-                        --scale;
-                        World.Instance.SetComponent<Size>(entity, new Size(scale));
+                        World.Instance.SetComponent<Size>(entity, new Size(--scale));
                     }
 
                     //If an entity collides with another which has a smaller size,
                     if (scale2 < scale)
                     {
                         //If the other enitty is protected, the entity lose some of its size
-                        if (isProtected2)
-                        {
-                            --scale;
-                        }
                         //Otherwise, we increment its size
-                        else
-                        {
-                            ++scale;
-                        }
-                        World.Instance.SetComponent<Size>(entity, new Size(scale));
+                        World.Instance.SetComponent<Size>(entity, new Size(isProtected2 ? --scale : ++scale));
                     }
 
                     //If the size of an enity is less than 1, we destroy the entity
@@ -63,7 +54,7 @@ public class SizeSys : IPhysicSystem
                             World.Instance.DeleteEntity(entity);
                             ECSManager.Instance.DestroyShape(entity.Id);
                         });
-                        return;
+                        break;
                     }
 
                 }

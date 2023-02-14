@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+// Represents an entity in the world
 public readonly struct Entity
 {
     public Entity(uint id)
@@ -11,8 +12,10 @@ public readonly struct Entity
     public readonly uint Id;
 }
 
+// Manage entities and components
 public class World
 {
+    // Max number of simultaneous entities
     const uint POOL_SIZE = 1024;
 
     #region Singleton
@@ -32,13 +35,20 @@ public class World
     }
     #endregion
 
+    // Components are stored in arrays (pool allocation), one array per component type
     private Dictionary<Type, IComponent[]> _components = new();
+    // Maps entity id to index in the component arrays
     private Dictionary<uint, uint> _idToIndex = new();
+    // Maps index in the component arrays to entity
     private Dictionary<uint, Entity> _indexToEntity = new();
+    // Next id to assign to an entity
     private uint _nextId = 0;
+    // Next index to use in the component arrays (pool growing phase)
     private uint _nextIndex = 0;
+    // Indexes of deleted entities
     private Stack<uint> _freeIndexes = new();
 
+    // Singletons are stored in a dictionary
     private Dictionary<Type, IComponent> _singletons = new();
 
     private World() { }
@@ -46,10 +56,12 @@ public class World
     public Entity CreateEntity()
     {
         var id = _nextId++;
+        // If the pool is fully grown, reuse deleted entities indexes
         var index = _nextIndex < POOL_SIZE ? _nextIndex++ : _freeIndexes.Pop();
         var entity = new Entity(id);
         _idToIndex[id] = index;
         _indexToEntity[index] = entity;
+        // Clear components of previous entity at this index
         foreach (var component in _components.Values)
         {
             component[index] = null;
@@ -63,6 +75,7 @@ public class World
         var index = _idToIndex[entity.Id];
         _freeIndexes.Push(index);
         //Debug.Log($"[DeleteEntity] deleted: id={entity.Id} index={index}");
+        // Cleanup is done in CreateEntity
     }
 
     public T? GetComponent<T>(Entity entity) where T : struct, IComponent
@@ -79,6 +92,7 @@ public class World
     {
         if (!_components.ContainsKey(typeof(T)))
         {
+            // Create the component array if it doesn't exist
             _components[typeof(T)] = new IComponent[POOL_SIZE];
         }
         var index = _idToIndex[entity.Id];
@@ -96,6 +110,7 @@ public class World
 
     public void ForEach<T>(Action<Entity, T?> action) where T : struct, IComponent
     {
+        // If the component array doesn't exist, yield null
         var componentArray = _components.GetValueOrDefault(typeof(T), null);
         for (uint i = 0; i < _nextIndex; i++)
         {
@@ -120,6 +135,7 @@ public class World
         _singletons[typeof(T)] = value;
     }
 
+    // Deep clone the world, quite expensive
     public World Clone(Func<IComponent, IComponent> componentCloner)
     {
         var clone = new World();

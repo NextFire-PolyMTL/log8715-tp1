@@ -12,4 +12,5 @@ public readonly struct IsClicked : IComponent { }
 //To tag entities which result of an explosion due to a mouse click
 public readonly struct BornOfClick : IComponent { }
 
+// To tag entities which should be ignored by the physic systems
 public readonly struct PhysicsIgnore : IComponent { }

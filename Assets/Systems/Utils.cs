@@ -5,11 +5,12 @@ public interface IPhysicSystem : ISystem { }
 
 public class Utils
 {
+    // Cloner for our components
     public static IComponent ComponentCloner(IComponent component)
     {
         switch (component)
         {
-            // case everything that needs deep copy (reference types)
+            // case everything that needs deep copies (reference types)
             case CollidingWith collidingWith:
                 var collidedShapes = new List<uint>(collidingWith.CollidedShapes);
                 var collidedShapesPosition = new List<Position>(collidingWith.CollidedShapesPosition);
@@ -20,13 +21,13 @@ public class Utils
                 var commands = new Queue<Action>(commandBuffer.Commands);
                 return new CommandBuffer(commands);
 
-            // in case of value types, just return the same instance,
-            // it will automatically be copied
+            // in case of value types (or wanted shallow copies), return the same instance
             default:
                 return component;
         }
     }
 
+    // ForEach that skips ignored entities
     public static void PhysicsForEach<T>(Action<Entity, T?> action) where T : struct, IComponent
     {
         World.Instance.ForEach<T>((entity, component) =>
@@ -39,6 +40,7 @@ public class Utils
         });
     }
 
+    // Helper to add a command to the command buffer
     public static void AddCommandToBuffer(Action command)
     {
         var commandBuffer = World.Instance.GetSingleton<CommandBuffer>();

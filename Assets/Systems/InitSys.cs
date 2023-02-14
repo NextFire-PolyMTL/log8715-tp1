@@ -14,6 +14,7 @@ public class InitSys : ISystem
         {
             World.Instance.SetSingleton<Initialized>(new Initialized());
 
+            // Create initial shapes
             foreach (var shape in ECSManager.Instance.Config.circleInstancesToSpawn)
             {
                 var entity = World.Instance.CreateEntity();
@@ -41,7 +42,7 @@ public class InitSys : ISystem
             // Setup command buffer
             World.Instance.SetSingleton<CommandBuffer>(new CommandBuffer(new Queue<Action>()));
 
-            //Setup click cooldown
+            // Setup click cooldown
             World.Instance.SetSingleton<ClickCooldown>(new ClickCooldown(0));
         }
     }

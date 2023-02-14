@@ -6,10 +6,7 @@ public class PhysicsIgnoreResetSys : ISystem
     {
         World.Instance.ForEach<PhysicsIgnore>((entity, val) =>
         {
-            if (val.HasValue)
-            {
-                World.Instance.RemoveComponent<PhysicsIgnore>(entity);
-            }
+            World.Instance.RemoveComponent<PhysicsIgnore>(entity);
         });
     }
 }

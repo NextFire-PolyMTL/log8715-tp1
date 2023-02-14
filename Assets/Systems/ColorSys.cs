@@ -45,7 +45,7 @@ public class ColorSys : IPhysicSystem
             {
                 World.Instance.SetComponent<ColorCompo>(entity, new ColorCompo(Color.blue));
             }
-            
+
             // TODO remove (just for debug)
             if (isProtected.HasValue)
             {

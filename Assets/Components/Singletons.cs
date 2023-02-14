@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Set when InitSys is done
 public readonly struct Initialized : IComponent { }
 
 public readonly struct ScreenBoundary : IComponent
@@ -24,6 +25,7 @@ public readonly struct ClickCooldown : IComponent
     public readonly float Time;
 }
 
+// Backups of the world for backtracking
 public readonly struct Backups : IComponent
 {
     public readonly struct WorldBackup
@@ -43,9 +45,11 @@ public readonly struct Backups : IComponent
         WorldBackups = worldBackups;
     }
 
+    // Only contains the last 3 seconds
     public readonly Queue<WorldBackup> WorldBackups;
 }
 
+// Last time the player backtracked (for cooldown)
 public readonly struct LastBacktrack : IComponent
 {
     public LastBacktrack(float timestamp)
@@ -56,6 +60,7 @@ public readonly struct LastBacktrack : IComponent
     public readonly float Timestamp;
 }
 
+// Command buffer queue
 public readonly struct CommandBuffer : IComponent
 {
     public CommandBuffer(Queue<Action> commands)

@@ -4,7 +4,9 @@ public class BacktrackSys : ISystem
 {
     public string Name => nameof(BacktrackSys);
 
+    // How long we backtrack
     const float BACKTRACK_TIME = 3;
+    // Cooldown between backtracks
     const float BACKTRACK_COOLDOWN = 3;
 
     public void UpdateSystem()
@@ -24,7 +26,7 @@ public class BacktrackSys : ISystem
         var clone = World.Instance.Clone(Utils.ComponentCloner);
         worldBackups.Enqueue(new Backups.WorldBackup(currTime, clone));
 
-        // Rollback on space
+        // Rollback (or cooldown status) on space press
         if (Input.GetKey(KeyCode.Space))
         {
             var lastBacktrack = World.Instance.GetSingleton<LastBacktrack>();
@@ -44,6 +46,7 @@ public class BacktrackSys : ISystem
                     ECSManager.Instance.DestroyShape(entity.Id);
                 });
 
+                // Swap the world instance with the backup
                 World.Instance = backup.World;
 
                 // Recreate shapes with the matching ids from the backup
@@ -54,6 +57,7 @@ public class BacktrackSys : ISystem
                     ECSManager.Instance.CreateShape(entity.Id, 0);
                 });
 
+                // Update the last backtrack time
                 World.Instance.SetSingleton<LastBacktrack>(new LastBacktrack(currTime));
             }
         }
