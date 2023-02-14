@@ -25,8 +25,8 @@ public class ClickSys : ISystem
                 var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
 
                 //if the mouse of the user is on a shape and the user click on it
-                if (Mathf.Abs(mousePosition.x - position.Value.X) < (scale >> 1)
-                && Mathf.Abs(mousePosition.y - position.Value.Y) < (scale >> 1)
+                if (Mathf.Abs(mousePosition.x - position.Value.X) < (scale / 2.0f)
+                && Mathf.Abs(mousePosition.y - position.Value.Y) < (scale / 2.0f)
                 && mouseClick)
                 {
                     //We set a tag related to the target entity to know that the corresponding shape has been clicked

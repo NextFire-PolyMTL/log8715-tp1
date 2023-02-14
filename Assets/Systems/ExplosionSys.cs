@@ -13,7 +13,16 @@ public class ExplosionSys : IPhysicSystem
             /*If the user has clicked on the object and its size is bigger than 2
             or if the object has reached the explosion size
             */
-            if ((isClicked.HasValue && size.Value.Scale >= 2) || size.Value.Scale >= ECSManager.Instance.Config.explosionSize)
+            if (isClicked.HasValue && (size.Value.Scale == 1))
+            {
+                //Deletes the entity if it's clicked and its size is 1
+                Utils.AddCommandToBuffer(() =>
+                {
+                    World.Instance.DeleteEntity(entity);
+                    ECSManager.Instance.DestroyShape(entity.Id);
+                });
+            }
+            else if ((isClicked.HasValue && size.Value.Scale >= 2) || size.Value.Scale >= ECSManager.Instance.Config.explosionSize)
             {
 
                 var position = World.Instance.GetComponent<Position>(entity);
