@@ -8,11 +8,14 @@ public class ExplosionSys : IPhysicSystem
     {
         Utils.PhysicsForEach<Size>((entity, size) =>
         {
+            // If the entity is static it can't be destroyed
+            if (World.Instance.GetComponent<IsStatic>(entity).HasValue) {
+                return;
+            }
             var isClicked = World.Instance.GetComponent<IsClicked>(entity);
-            var isStatic = World.Instance.GetComponent<IsStatic>(entity).HasValue;
 
             // If the user has clicked on a size 1 circle, it will be deleted
-            if (isClicked.HasValue && (size.Value.Scale == 1) && !isStatic)
+            if (isClicked.HasValue && (size.Value.Scale == 1))
             {
                 Utils.AddCommandToBuffer(() =>
                 {
