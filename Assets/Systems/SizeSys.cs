@@ -63,6 +63,7 @@ public class SizeSys : IPhysicSystem
                             World.Instance.DeleteEntity(entity);
                             ECSManager.Instance.DestroyShape(entity.Id);
                         });
+                        return;
                     }
 
                 }
