@@ -9,9 +9,10 @@ public class ExplosionSys : IPhysicSystem
         Utils.PhysicsForEach<Size>((entity, size) =>
         {
             var isClicked = World.Instance.GetComponent<IsClicked>(entity);
+            var isStatic = World.Instance.GetComponent<IsStatic>(entity).HasValue;
 
             // If the user has clicked on a size 1 circle, it will be deleted
-            if (isClicked.HasValue && (size.Value.Scale == 1))
+            if (isClicked.HasValue && (size.Value.Scale == 1) && !isStatic)
             {
                 Utils.AddCommandToBuffer(() =>
                 {
