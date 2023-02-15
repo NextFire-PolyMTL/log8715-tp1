@@ -22,7 +22,9 @@ public class SizeSys : IPhysicSystem
                 var collidedShapesSize = collidingWith.Value.CollidedShapesSize;
                 for (int i = 0; i < collidedShapes.Count; i++)
                 {
-                    var isStatic2 = World.Instance.GetComponent<IsStatic>(new Entity(collidedShapes[i]));
+                    var entity2 = World.Instance.GetEntity(collidedShapes[i]);
+
+                    var isStatic2 = World.Instance.GetComponent<IsStatic>(entity2);
                     //If an entity collides with a static one, its size doesn't change
                     if (isStatic2.HasValue)
                     {
@@ -30,7 +32,7 @@ public class SizeSys : IPhysicSystem
                     }
 
                     var scale2 = collidedShapesSize[i].Scale;
-                    bool isProtected2 = World.Instance.GetComponent<IsProtected>(new Entity(collidedShapes[i])).HasValue;
+                    bool isProtected2 = World.Instance.GetComponent<IsProtected>(entity2).HasValue;
                     //If an entity collides with another which has a bigger size and is protected, we reduce the size of the entity
                     if (scale2 > scale && !isProtected2)
                     {

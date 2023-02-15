@@ -70,6 +70,11 @@ public class World
         return entity;
     }
 
+    public Entity GetEntity(uint id)
+    {
+        return _indexToEntity[_idToIndex[id]];
+    }
+
     public void DeleteEntity(Entity entity)
     {
         var index = _idToIndex[entity.Id];
