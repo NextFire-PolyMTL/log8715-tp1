@@ -9,7 +9,8 @@ public class ExplosionSys : IPhysicSystem
         Utils.PhysicsForEach<Size>((entity, size) =>
         {
             // If the entity is static it can't be destroyed
-            if (World.Instance.GetComponent<IsStatic>(entity).HasValue) {
+            if (World.Instance.GetComponent<IsStatic>(entity).HasValue)
+            {
                 return;
             }
             var isClicked = World.Instance.GetComponent<IsClicked>(entity);
@@ -24,7 +25,8 @@ public class ExplosionSys : IPhysicSystem
                 });
             }
             /*If the user has clicked on the object and its size is bigger than 2
-            or if the object has reached the explosion size
+            or if the object has reached the explosion size, we divide it into
+            two circle with the same size (which is the half of the original circle)
             */
             else if ((isClicked.HasValue && size.Value.Scale >= 2) || size.Value.Scale >= ECSManager.Instance.Config.explosionSize)
             {
@@ -43,7 +45,7 @@ public class ExplosionSys : IPhysicSystem
                     size.Value.Scale
                 );
 
-                //We instanciate the 2 resulting enities of the explosion by using the result of the false collision simulated before
+                //We instanciate the 2 resulting entities of the explosion by using the result of the false collision simulated before
 
                 var newEntity = World.Instance.CreateEntity();
                 World.Instance.SetComponent<Size>(newEntity, new Size(size.Value.Scale >> 1));
@@ -58,7 +60,7 @@ public class ExplosionSys : IPhysicSystem
                 ECSManager.Instance.CreateShape(newEntity2.Id, size.Value.Scale >> 1);
 
 
-                /*If the explosion is due to a click, we set BornOfClick tag for the two new entity
+                /*If the explosion is due to a click, we set BornOfClick tag for the two new entities
                 It will be useful to set their color as pink in the ColorSys*/
                 if (isClicked.HasValue)
                 {

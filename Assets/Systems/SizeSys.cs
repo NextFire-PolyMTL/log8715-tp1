@@ -12,6 +12,7 @@ public class SizeSys : IPhysicSystem
             {
                 return;
             }
+            
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
 
             //If an entity has collide with others

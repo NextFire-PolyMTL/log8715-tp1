@@ -12,12 +12,10 @@ public class ColorSys : IPhysicSystem
         {
 
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
-            //var isClicked = World.Instance.GetComponent<IsClicked>(entity);
             var bornOfClick = World.Instance.GetComponent<BornOfClick>(entity);
             var isColliding = World.Instance.GetComponent<IsColliding>(entity);
             var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
-            //var isCollided = World.Instance.GetComponent<IsCollided>(entity);
             var isProtected = World.Instance.GetComponent<IsProtected>(entity);
 
             //If the object is static, its color is red
@@ -25,7 +23,7 @@ public class ColorSys : IPhysicSystem
             {
                 World.Instance.SetComponent<ColorCompo>(entity, new ColorCompo(Color.red));
             }
-            //If the object collid with other object, its color is green
+            //If the object collide with other object, its color is green
             else if (collidingWith.HasValue)
             {
                 World.Instance.SetComponent<ColorCompo>(entity, new ColorCompo(Color.green));

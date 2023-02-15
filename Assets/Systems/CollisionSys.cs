@@ -13,8 +13,8 @@ public class CollisionSys : IPhysicSystem
 
         Utils.PhysicsForEach<Position>((entity, position) =>
         {
-            /*If the object is static, there is no need for collision detection on it
-            (But of course, for the other non-static object that collid a static object
+            /*If the object is static, there is no need for detection of collision on it
+            (But of course, for the other non-static object that collids the static object
             we take into account the collision)*/
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);
             if (isStatic.HasValue)
@@ -43,6 +43,7 @@ public class CollisionSys : IPhysicSystem
                 }
             }
 
+            //We check which entities collide with the current entity of the loop
             Utils.PhysicsForEach<Position>((entity2, position2) =>
             {
                 var scale2 = World.Instance.GetComponent<Size>(entity2);
@@ -56,17 +57,6 @@ public class CollisionSys : IPhysicSystem
                             + Mathf.Pow((position.Value.Y - position2.Value.Y), 2))
                         < (((scale + scale2.Value.Scale) >> 1)))
                     {
-                        /*We save the information related to the shape which collids with entity into
-                        */
-
-                        var newPosVit = CollisionUtility.CalculateCollision(
-                        new Vector2(position.Value.X, position.Value.Y),
-                        new Vector2(velocity.Value.Vx, velocity.Value.Vy),
-                        scale,
-                        new Vector2(position.Value.X, position.Value.Y),
-                        new Vector2(-velocity.Value.Vx, velocity.Value.Vy),
-                        scale2.Value.Scale
-                        );
 
                         /*We save the information related to the shape which collides with entity into
                         a CollidingWith component (and we set a tag IsColliding too)
@@ -74,7 +64,7 @@ public class CollisionSys : IPhysicSystem
                         World.Instance.SetComponent<IsColliding>(entity, new IsColliding());
                         var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
 
-                        /*If the list of the CollidingWith component have not been initialized before,
+                        /*If the list of the CollidingWith component has not been initialized before,
                         we initialize it with the configuration of the colliding object*/
                         if (!collidingWith.HasValue)
                         {

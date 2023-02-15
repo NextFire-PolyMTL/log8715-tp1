@@ -11,7 +11,7 @@ public class PositionSys : IPhysicSystem
         //We first set the position and the velocity resulting from collisions
         Utils.PhysicsForEach<IsColliding>((entity, isColliding) =>
         {
-
+            //No need to update the position or the velocity if there is no collision...
             if (!isColliding.HasValue)
             {
                 return;
@@ -23,8 +23,8 @@ public class PositionSys : IPhysicSystem
             var scale = World.Instance.GetComponent<Size>(entity).Value.Scale;
             var collidingWith = World.Instance.GetComponent<CollidingWith>(entity);
 
-            /*If the entity is related to a isColliding tag but have not collidingWith component associated,
-            it means that the corresponding object has collide the screen boundary*/
+            /*If the entity is related to a isColliding tag but have not collidingWith component associated with it,
+            it means that the corresponding object collided with the screen boundary*/
             if (isColliding.HasValue && !collidingWith.HasValue)
 
             {
@@ -84,7 +84,8 @@ public class PositionSys : IPhysicSystem
                     World.Instance.SetComponent<Velocity>(entity, new Velocity(newPosVit.velocity2[0], newPosVit.velocity2[1]));
                 }
 
-                //We delete the entity after the execution of other systems in another system which execute the singleton CommandBuffer
+                /*We delete the entity, after the execution of other systems, in another system (CommandBufferSys)
+                which executes the singleton CommandBuffer*/
                 Utils.AddCommandToBuffer(() =>
                 {
                     World.Instance.RemoveComponent<IsColliding>(entity);
@@ -122,7 +123,7 @@ public class PositionSys : IPhysicSystem
 
                 }
 
-                /*We remove the components related to the collisions after the execution of other systems in another system
+                /*We delete the entity, after the execution of other systems, in another system (CommandBufferSys)
                 which executes the singleton CommandBuffer*/
                 Utils.AddCommandToBuffer(() =>
                 {
@@ -135,7 +136,7 @@ public class PositionSys : IPhysicSystem
 
         });
 
-        //We update the position of all entities (except the one which has a IsStatic tag among their components)
+        //We update the position of all entities (except those which have a IsStatic tag among their components)
         Utils.PhysicsForEach<Velocity>((entity, velocity) =>
         {
             var isStatic = World.Instance.GetComponent<IsStatic>(entity);

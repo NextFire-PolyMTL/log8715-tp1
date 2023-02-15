@@ -10,6 +10,7 @@ public class InitSys : ISystem
     {
         var initialized = World.Instance.GetSingleton<Initialized>();
 
+        //Executed only if it is the first time that the system is executed in the game loop.
         if (!initialized.HasValue)
         {
             World.Instance.SetSingleton<Initialized>(new Initialized());
@@ -28,6 +29,7 @@ public class InitSys : ISystem
                 ECSManager.Instance.CreateShape(entity.Id, shape.initialSize);
             }
 
+            // Setting the screen boundary
             World.Instance.SetSingleton<ScreenBoundary>(
                 new ScreenBoundary(
                     Camera.main.ScreenToWorldPoint(
