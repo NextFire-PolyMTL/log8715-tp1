@@ -1,10 +1,11 @@
+//To tag entities which are static
 public readonly struct IsStatic : IComponent { }
 
+//To tag entities which are protected
 public readonly struct IsProtected : IComponent { }
 
 //To tag entities which are colliding each other or the border of the screen
 public readonly struct IsColliding : IComponent { }
-//public readonly struct IsCollided : IComponent { }
 
 //To tag entities which are clicked by the user
 public readonly struct IsClicked : IComponent { }

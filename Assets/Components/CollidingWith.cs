@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 
+//The follow component contains data about shapes which collide with the entity related to the component
 public readonly struct CollidingWith : IComponent
 {
-    /*
-    The follow component contains data about shapes which collide with the entity related to the component
-    */
     public CollidingWith(
         List<uint> collidedShapes,
         List<Position> collidedShapesPosition,

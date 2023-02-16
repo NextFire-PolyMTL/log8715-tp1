@@ -15,6 +15,7 @@ public readonly struct ScreenBoundary : IComponent
     public readonly Vector3 Value;
 }
 
+//Cooldown between mouse's input
 public readonly struct ClickCooldown : IComponent
 {
     public ClickCooldown(float value)

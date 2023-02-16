@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Color of an entity
 public readonly struct ColorCompo : IComponent
 {
     public ColorCompo(Color shapeColor)
