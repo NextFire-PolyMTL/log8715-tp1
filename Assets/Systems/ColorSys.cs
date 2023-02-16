@@ -43,7 +43,6 @@ public class ColorSys : IPhysicSystem
             {
                 World.Instance.SetComponent<ColorCompo>(entity, new ColorCompo(Color.blue));
             }
-
         });
     }
 }
