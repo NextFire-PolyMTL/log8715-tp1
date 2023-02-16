@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Initialize the simulation
 public class InitSys : ISystem
 {
     public string Name => nameof(InitSys);

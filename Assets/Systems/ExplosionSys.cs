@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Manage explosion of circles
 public class ExplosionSys : IPhysicSystem
 {
     public string Name => nameof(ExplosionSys);

@@ -1,3 +1,4 @@
+//Set PhysicsIgnore tag for all antities at the right of the screen
 public class PhysicsIgnoreSys : ISystem
 {
     public string Name => nameof(PhysicsIgnoreSys);

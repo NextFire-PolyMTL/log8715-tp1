@@ -1,3 +1,4 @@
+//Remove all PhysicsIgnore tag
 public class PhysicsIgnoreResetSys : ISystem
 {
     public string Name => nameof(PhysicsIgnoreResetSys);

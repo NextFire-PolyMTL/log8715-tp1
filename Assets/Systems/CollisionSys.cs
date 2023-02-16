@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Take care of the collisions between objects
 public class CollisionSys : IPhysicSystem
 {
     public string Name => nameof(CollisionSys);

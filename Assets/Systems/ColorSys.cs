@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Take care of the color of the objects regarding their current state
 public class ColorSys : IPhysicSystem
 {
     public string Name => nameof(ColorSys);

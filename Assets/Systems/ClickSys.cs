@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Take care of the input related to a click of the mouse
 public class ClickSys : ISystem
 {
     public string Name => nameof(ClickSys);

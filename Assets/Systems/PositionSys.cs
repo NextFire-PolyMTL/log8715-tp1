@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Set Position and Velocity of entities
 public class PositionSys : IPhysicSystem
 {
     public string Name => nameof(PositionSys);
